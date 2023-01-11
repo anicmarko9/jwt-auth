@@ -3,7 +3,8 @@ class AppError extends Error {
   status: string;
   isOperational: boolean;
   constructor(message: string, statusCode: number) {
-    super(message);
+    const sliced: string = message.charAt(0).toUpperCase() + message.slice(1);
+    super(sliced);
 
     this.statusCode = statusCode;
     this.status = `${statusCode}`.startsWith("4") ? "fail" : "error";

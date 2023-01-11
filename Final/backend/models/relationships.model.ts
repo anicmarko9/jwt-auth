@@ -1,5 +1,8 @@
-import User from "./userPG.model";
+import User from "./user.model";
+import Country from "./country.model";
+import RequestCountry from "./request.model";
 
-// one to many || many to many
+User.belongsToMany(Country, { through: RequestCountry });
+Country.belongsToMany(User, { through: RequestCountry });
 
-export default User;
+export { User, Country, RequestCountry };

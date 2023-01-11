@@ -1,8 +1,9 @@
-import { City, Country } from "../types/weather.type";
+import { City, ICountry } from "../types/weather.type";
 import axios from "axios";
 import { fetchCity } from "./weather.service";
 import { COUNTRIES } from "../../frontend/src/mocks/mock";
 import AppError from "../utils/AppError";
+import { Country } from "../models/relationships.model";
 
 export const searchCountryDetails = async (
   countryCode: string
@@ -16,7 +17,7 @@ export const searchCountryDetails = async (
   console.time("\nFetched all data synchronously in");
   let start: number = new Date().getTime();
 
-  const country: Country = await fetchCountry(countryCode);
+  const country: ICountry = await fetchCountry(countryCode);
 
   console.log(
     `Fetched ${country.name} in: ${new Date().getTime() - start}ms` // kraj [ms]
@@ -26,15 +27,28 @@ export const searchCountryDetails = async (
     countryCode.toUpperCase()
   );
   country.forecast = city;
-  console.timeEnd("\nFetched all data synchronously in");
 
-  return country;
+  const findCountry = await Country.findOne({
+    where: {
+      name: country.name,
+    },
+  });
+  if (findCountry) {
+    findCountry.forecast = country.forecast;
+    await findCountry.save();
+  } else {
+    console.timeEnd("\nFetched all data synchronously in");
+    return await Country.create(country);
+  }
+
+  console.timeEnd("\nFetched all data synchronously in");
+  return findCountry;
 };
 
 const fetchCountry = async (countryCode: string) => {
   try {
     const res = await axios.get(`${process.env.API_REST}${countryCode}`);
-    var country: Country = {
+    const country: ICountry = {
       name: res.data[0].name.common,
       officialName: res.data[0].name.official,
       independent: res.data[0].independent,
@@ -48,10 +62,9 @@ const fetchCountry = async (countryCode: string) => {
       population: res.data[0].population.toLocaleString(),
       drivingSide: res.data[0].car.side,
       flagUrl: res.data[0].flags.png,
-      error: null,
     };
     return country;
   } catch (err) {
-    console.log(err);
+    throw new AppError("Bad request!", 400);
   }
 };

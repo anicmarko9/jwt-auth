@@ -1,5 +1,5 @@
 import { QueryInterface, Sequelize } from "sequelize";
-import { Umzug, SequelizeStorage, MigrationMeta } from "umzug";
+import { Umzug, SequelizeStorage, MigrationMeta, UmzugOptions } from "umzug";
 
 export const sequelize: Sequelize = new Sequelize(
   "users",
@@ -12,30 +12,30 @@ export const sequelize: Sequelize = new Sequelize(
   }
 );
 
-const migrationConf = {
+const migrationConf: UmzugOptions<QueryInterface> = {
   migrations: {
-    glob: "models/migrations/*.ts",
+    glob: "migrations/*.ts",
   },
   storage: new SequelizeStorage({ sequelize, tableName: "migrations" }),
   context: sequelize.getQueryInterface(),
   logger: console,
 };
 
-const runMigrations = async () => {
-  const migrator = new Umzug(migrationConf);
-  const migrations = await migrator.up();
+const runMigrations = async (): Promise<void> => {
+  const migrator: Umzug<QueryInterface> = new Umzug(migrationConf);
+  const migrations: MigrationMeta[] = await migrator.up();
   console.log("Migrations up to date", {
-    files: migrations.map((mig) => mig.name),
+    files: migrations.map((mig: MigrationMeta) => mig.name),
   });
 };
 
-export const rollbackMigration = async () => {
+export const rollbackMigration = async (): Promise<void> => {
   await sequelize.authenticate();
-  const migrator = new Umzug(migrationConf);
+  const migrator: Umzug<QueryInterface> = new Umzug(migrationConf);
   await migrator.down();
 };
 
-export const connectToDatabase = async () => {
+export const connectToDatabase = async (): Promise<void> => {
   try {
     await sequelize.authenticate();
     await runMigrations();

@@ -22,7 +22,7 @@ router
     userController.resizeUserPhoto,
     userController.updateMe
   )
-  .delete(userController.deleteMe);
+  .delete(userController.deleteMe, authController.logoutUser);
 
 router.use(authController.restrictToUser);
 

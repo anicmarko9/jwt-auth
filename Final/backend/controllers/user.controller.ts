@@ -1,4 +1,4 @@
-import User from "./../models/relationships.model";
+import { User } from "./../models/relationships.model";
 import { TypedRequestBody } from "../types/user.type";
 import { Response, NextFunction } from "express";
 import {
@@ -13,6 +13,7 @@ import {
   upload,
 } from "../services/user.service";
 import AppError from "../utils/AppError";
+import { logoutUser } from "./auth.controller";
 
 export async function getAllUsers(
   req: TypedRequestBody<User>,
@@ -85,6 +86,7 @@ export async function deleteUser(
 ) {
   const { id } = req.params;
   try {
+    if (req.params.id === req.user.id.toString()) logoutUser(req, res, next);
     await deleteOne(parseInt(id));
     res.status(204).json({
       status: "success",

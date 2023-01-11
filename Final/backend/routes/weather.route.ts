@@ -1,12 +1,12 @@
 import { Router } from "express";
-import {
-  searchCountry,
-  searchWeathers,
-} from "../controllers/weather.controller";
+import * as weatherController from "../controllers/weather.controller";
 import * as authController from "./../controllers/auth.controller";
 const router: Router = Router();
 
-router.get("/forecast", authController.loggedIn, searchWeathers);
-router.get("/country", authController.loggedIn, searchCountry);
+router.use(authController.loggedIn);
+
+router.get("/forecast", weatherController.searchWeathers);
+router.get("/country", weatherController.searchCountry);
+router.get("/my-history", weatherController.showHistory);
 
 export default router;

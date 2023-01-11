@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { User } from "../types/userTypes";
+import { logout } from "./auth";
 import catchError from "./catchError";
 
 export const updateUser = async (name: string, bio: string): Promise<void> => {
@@ -31,10 +32,7 @@ const fetchUpdateUser = async (name: string, bio: string): Promise<User> => {
 
 export const deleteMe = async (): Promise<void> => {
   await fetchDeleteMe();
-  window.localStorage.removeItem("user");
-  window.setTimeout(() => {
-    window.location.reload();
-  }, 1000);
+  await logout();
 };
 const fetchDeleteMe = async (): Promise<void> => {
   try {
@@ -75,9 +73,11 @@ const fetchPromotion = async (id: number, role: string): Promise<void> => {
 
 export const suspendUser = async (id: number): Promise<void> => {
   await fetchDelete(id);
-  window.setTimeout(() => {
-    window.location.reload();
-  }, 1000);
+  JSON.parse(window.localStorage.getItem("user")).id === id
+    ? await logout()
+    : window.setTimeout(() => {
+        window.location.reload();
+      }, 1000);
 };
 
 const fetchDelete = async (id: number): Promise<void> => {

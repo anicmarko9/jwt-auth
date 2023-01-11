@@ -44,7 +44,7 @@ export const logout = async (): Promise<void> => {
   }, 1000);
 };
 
-const fetchLogout = async (): Promise<void> => {
+export const fetchLogout = async (): Promise<void> => {
   try {
     await axios.get("http://localhost:5000/users/logout", {
       withCredentials: true,

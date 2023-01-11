@@ -63,7 +63,7 @@ app.use(
   ) => {
     const statusCode: number = err.statusCode || 500;
     console.error(err.message, err.stack);
-    res.status(statusCode).json({ message: err.message });
+    res.status(statusCode).json({ err });
     return;
   }
 );

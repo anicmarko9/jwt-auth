@@ -1,6 +1,7 @@
 import { rollbackMigration } from "./db.util";
 
 // rollbackMigration();
-(async () => {
+
+(async (): Promise<void> => {
   await rollbackMigration();
 })();

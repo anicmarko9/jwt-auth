@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-export async function up({ context: queryInterface }) {
+export const up = async ({ context: queryInterface }): Promise<void> => {
   await queryInterface.createTable("users", {
     id: {
       type: DataTypes.INTEGER,
@@ -11,7 +11,13 @@ export async function up({ context: queryInterface }) {
       type: DataTypes.STRING(30),
       allowNull: false,
       validate: {
+        isAlphanumeric: {
+          msg: "Special characters not allowed",
+        },
         notNull: {
+          msg: "Please enter your name",
+        },
+        notEmpty: {
           msg: "Please enter your name",
         },
       },
@@ -22,11 +28,11 @@ export async function up({ context: queryInterface }) {
     email: {
       type: DataTypes.STRING(30),
       allowNull: false,
-      unique: {
-        name: "email",
-        msg: "This email already exists!",
-      },
+      unique: true,
       validate: {
+        notEmpty: {
+          msg: "Please enter your email",
+        },
         isEmail: {
           msg: "Wrong email format!",
         },
@@ -51,6 +57,9 @@ export async function up({ context: queryInterface }) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: {
+          msg: "Please enter your password",
+        },
         len: {
           msg: "Password length must be at least 8 characters long!",
           args: [8, 100],
@@ -64,6 +73,9 @@ export async function up({ context: queryInterface }) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: {
+          msg: "Please confirm your password",
+        },
         len: {
           msg: "Password length must be at least 8 characters long!",
           args: [8, 100],
@@ -83,7 +95,60 @@ export async function up({ context: queryInterface }) {
       type: DataTypes.BIGINT,
     },
   });
-}
-export async function down({ context: queryInterface }) {
+  await queryInterface.createTable("countries", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+    },
+    officialName: {
+      type: DataTypes.STRING,
+    },
+    independent: {
+      type: DataTypes.BOOLEAN,
+    },
+    currency: {
+      type: DataTypes.JSON,
+    },
+    capitalCity: {
+      type: DataTypes.STRING,
+    },
+    continent: {
+      type: DataTypes.STRING,
+    },
+    subContinent: {
+      type: DataTypes.STRING,
+    },
+    languages: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    landlocked: {
+      type: DataTypes.BOOLEAN,
+    },
+    area: {
+      type: DataTypes.STRING,
+    },
+    population: {
+      type: DataTypes.STRING,
+    },
+    drivingSide: {
+      type: DataTypes.STRING,
+    },
+    flagUrl: {
+      type: DataTypes.STRING,
+    },
+    mapUrl: {
+      type: DataTypes.STRING,
+    },
+    forecast: {
+      type: DataTypes.JSON,
+    },
+  });
+};
+export const down = async ({ context: queryInterface }): Promise<void> => {
   await queryInterface.dropTable("users");
-}
+  await queryInterface.dropTable("countries");
+};

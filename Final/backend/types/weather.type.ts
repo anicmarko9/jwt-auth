@@ -5,7 +5,7 @@ export type City = {
   img: string[];
 };
 
-export type Country = {
+export type ICountry = {
   name?: string;
   officialName?: string;
   independent?: boolean;
@@ -21,5 +21,5 @@ export type Country = {
   flagUrl?: string;
   mapUrl?: string;
   forecast?: City;
-  error: string;
+  counter?: number;
 };

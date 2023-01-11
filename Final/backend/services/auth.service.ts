@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
 import AppError from "../utils/AppError";
-import User from "../models/relationships.model";
+import { User } from "../models/relationships.model";
 import { Op } from "sequelize";
 
 export const authSignup = async (
@@ -29,7 +29,7 @@ export const authLogin = async (
 
 export const findUser = async (id: string, iat: number): Promise<User> => {
   // check if user still exists
-  const currentUser: User = await User.findByPk(id);
+  const currentUser: User = await User.scope("withoutPassword").findByPk(id);
   if (!currentUser) throw checkUser(401);
 
   // check if user changed password after the token was issued
@@ -43,7 +43,7 @@ export const findUser = async (id: string, iat: number): Promise<User> => {
 };
 
 export const checkLogin = async (id: string, iat: number): Promise<User> => {
-  const currentUser: User = await User.findByPk(id);
+  const currentUser: User = await User.scope("withoutPassword").findByPk(id);
   if (!currentUser) {
     throw checkUser(401);
   }
@@ -60,7 +60,9 @@ export const checkLogin = async (id: string, iat: number): Promise<User> => {
 
 export const setUserResetToken = async (email: string): Promise<User> => {
   if (!email) throw new AppError("Please provide email", 400);
-  const user: User = await User.findOne({ where: { email } });
+  const user: User = await User.scope("withoutPassword").findOne({
+    where: { email },
+  });
   if (!user) throw checkUser(404);
   return user;
 };
