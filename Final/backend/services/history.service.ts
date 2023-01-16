@@ -70,13 +70,20 @@ const adminCountSearches = async (
   });
 };
 
-export const deleteAll = async () => {
-  return await RequestCountry.destroy({
-    truncate: true,
+export const deleteAll = async (id: number): Promise<void[]> => {
+  const all: Promise<void>[] = [];
+  const allQueries: RequestCountry[] = await RequestCountry.findAll({
+    where: {
+      userId: id,
+    },
   });
+  allQueries.forEach((query: RequestCountry) => {
+    all.push(query.destroy());
+  });
+  return await Promise.all(all);
 };
-export const deleteOne = async (id: number) => {
-  const query = await RequestCountry.findByPk(id);
+export const deleteOne = async (id: number): Promise<void> => {
+  const query: RequestCountry = await RequestCountry.findByPk(id);
   if (!query) throw new AppError("Query already deleted!", 404);
   return await query.destroy();
 };

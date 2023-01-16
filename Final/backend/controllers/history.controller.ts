@@ -48,7 +48,7 @@ export async function deleteHistory(
 ) {
   const { id } = req.params;
   try {
-    id ? await deleteOne(parseInt(id)) : await deleteAll();
+    id ? await deleteOne(parseInt(id)) : await deleteAll(res.locals.user.id);
     res.status(204).json({
       status: "success",
       data: null,
