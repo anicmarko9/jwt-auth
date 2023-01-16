@@ -230,7 +230,7 @@ sup {
   height: 5em;
 }
 
-table {
+.table table {
   table-layout: auto;
   border-collapse: collapse;
   width: 50%;
@@ -241,47 +241,47 @@ table {
   border: solid 1px #2d033b;
 }
 
-thead {
+.table thead {
   background-color: rgba(193, 71, 233, 0.2);
 }
 
-thead tr,
-tbody tr {
+.table thead tr,
+.table tbody tr {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
 }
-thead th {
+.table thead th {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #2d033b;
 }
-thead th:nth-of-type(1) {
+.table thead th:nth-of-type(1) {
   margin-right: 1.125em;
 }
-th,
-td {
+.table th,
+.table td {
   color: #2d033b;
   padding: 0.5em;
   letter-spacing: 1px;
 }
-td {
+.table td {
   text-align: left;
   color: #810ca8;
 }
-tbody th {
+.table tbody th {
   margin-right: 3em;
   margin-left: 3em;
 }
-tbody tr:nth-child(odd) {
+.table tbody tr:nth-child(odd) {
   background-color: rgba(229, 184, 244, 0.2);
 }
-tbody tr:nth-child(even) {
+.table tbody tr:nth-child(even) {
   background-color: rgba(193, 71, 233, 0.2);
 }
 
 @media only screen and (max-width: 800px) {
-  table {
+  .table table {
     width: 96%;
     margin: 1% 2%;
   }

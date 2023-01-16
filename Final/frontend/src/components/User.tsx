@@ -9,6 +9,7 @@ import { updatePassword } from "../services/auth";
 import { deleteMe, updateUser } from "../services/userSettings";
 import { InputData, User } from "../types/userTypes";
 import { handleInput } from "../features/helper";
+import ErrorHeading from "./Error";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -76,9 +77,7 @@ const Example = (): JSX.Element => {
         <h1 className="country-container">Loading...</h1>
       ) : error ? (
         <>
-          <h1 className="country-container">
-            {error.response.data["message"]}
-          </h1>
+          <ErrorHeading error={error} />
         </>
       ) : (
         <div className="user-container">

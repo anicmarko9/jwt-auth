@@ -17,3 +17,36 @@ export type City = {
   days: string[];
   img: string[];
 };
+
+export type Country = {
+  id: number;
+  name?: string;
+  officialName?: string;
+  independent?: boolean;
+  currency?: { code: { name: string; symbol: string } };
+  capitalCity?: string;
+  continent?: string;
+  subContinent?: string;
+  languages?: string[];
+  landlocked?: boolean;
+  area?: number;
+  population?: number;
+  drivingSide?: string;
+  flagUrl?: string;
+  mapUrl?: string;
+  forecast?: City;
+  counter?: number;
+};
+
+export type IQuery = {
+  id: number;
+  countryId: number;
+  userId: number;
+  query: string;
+  timestamp: string;
+};
+
+export type IHistory = {
+  count: number;
+  rows?: IQuery[];
+};

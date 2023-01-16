@@ -4,6 +4,7 @@ import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import weatherRouter from "./routes/weather.route";
 import userRouter from "./routes/user.route";
+import historyRouter from "./routes/history.route";
 import rateLimit, { RateLimitRequestHandler } from "express-rate-limit";
 import helmet from "helmet";
 import AppError from "./utils/AppError";
@@ -49,10 +50,11 @@ const limiter: RateLimitRequestHandler = rateLimit({
   message: "Too many requests from this IP, please try again in an hour!",
 });
 
-app.use("/", limiter);
+// app.use("/", limiter);
 
 app.use("/weathers", weatherRouter);
 app.use("/users", userRouter);
+app.use("/history", historyRouter);
 
 app.use(
   (
@@ -63,7 +65,7 @@ app.use(
   ) => {
     const statusCode: number = err.statusCode || 500;
     console.error(err.message, err.stack);
-    res.status(statusCode).json({ err });
+    res.status(statusCode).json({ message: err.message });
     return;
   }
 );

@@ -211,9 +211,10 @@ export const forgotPassword = async (
   try {
     var user: User = await setUserResetToken(req.body.email);
     const resetToken: string = user.createPasswordResetToken();
-    await user.save({ validate: false });
     const resetURL: string = `http://localhost:3000/reset-password/${resetToken}`;
-    await sendEmail(user, resetURL, "PasswordReset");
+    const prom1: Promise<User> = user.save({ validate: false });
+    const prom2: Promise<void> = sendEmail(user, resetURL, "PasswordReset");
+    await Promise.all([prom1, prom2]);
     res.status(200).json({
       status: "success",
       message: "Token sent to email!",

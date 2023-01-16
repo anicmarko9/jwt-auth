@@ -2,8 +2,19 @@ import { searchForecast } from "../services/weather.service";
 import { searchCountryDetails } from "../services/country.service";
 import { Request, Response, NextFunction } from "express";
 import { City } from "../types/weather.type";
-import { Country, RequestCountry, User } from "../models/relationships.model";
-import { myHistory } from "../services/user.service";
+import { Country, RequestCountry } from "../models/relationships.model";
+
+export async function getAllCountries(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const countries: Country[] = await Country.findAll();
+  res.status(200).json({
+    status: "success",
+    countries,
+  });
+}
 
 export async function searchWeathers(
   req: Request,
@@ -40,17 +51,4 @@ export async function searchCountry(
   } catch (err) {
     next(err);
   }
-}
-
-export async function showHistory(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const history: RequestCountry[] = await myHistory(res.locals.user.id);
-  res.status(200).json({
-    status: "success",
-    results: history.length,
-    history,
-  });
 }

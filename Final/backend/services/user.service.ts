@@ -1,7 +1,7 @@
 import * as multer from "multer";
 import * as sharp from "sharp";
 import AppError from "../utils/AppError";
-import { RequestCountry, User } from "../models/relationships.model";
+import { User } from "../models/relationships.model";
 import { TypedRequestBody } from "../types/user.type";
 
 const multerStorage: multer.StorageEngine = multer.memoryStorage();
@@ -119,14 +119,4 @@ export const deleteOne = async (id: number): Promise<void> => {
 export const deleteMyself = async (id: number): Promise<void> => {
   const user: User = await User.findByPk(id);
   await user.destroy();
-};
-
-export const myHistory = async (id: number): Promise<RequestCountry[]> => {
-  return await RequestCountry.findAll({
-    where: {
-      userId: id,
-    },
-    attributes: { exclude: ["userId"] },
-    order: ["timestamp"],
-  });
 };

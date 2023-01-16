@@ -13,6 +13,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import UserSettings from "./components/User";
 import AdminPanel from "./components/AdminPanel";
+import History from "./components/History";
+import HistoryAdmin from "./components/HistoryAdmin";
 
 function App(): JSX.Element {
   return (
@@ -29,6 +31,8 @@ function App(): JSX.Element {
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/me" element={<UserSettings />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/history-admin" element={<HistoryAdmin />} />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="/" element={<Navigate to="/weathers" />} />
           <Route path="*" element={<Navigate to="/not-found" />} />

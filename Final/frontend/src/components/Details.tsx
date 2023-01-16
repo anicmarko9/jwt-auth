@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import Results from "./Results";
 import { checkCity } from "../services/weather";
+import { Country } from "../types/weatherTypes";
+import ErrorHeading from "./Error";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -25,9 +27,9 @@ function Example({ countryCode }: { countryCode: string }): JSX.Element {
     isLoading,
     error,
     data,
-  }: { isLoading: boolean; error: AxiosError; data: AxiosResponse } = useQuery({
+  }: { isLoading: boolean; error: AxiosError; data: Country } = useQuery({
     queryKey: ["countryData"],
-    queryFn: async (): Promise<AxiosResponse> => {
+    queryFn: async (): Promise<Country> => {
       const response: AxiosResponse = await axios.get(
         `http://localhost:5000/weathers/country?countryCode=${countryCode}`,
         { withCredentials: true }
@@ -65,11 +67,7 @@ function Example({ countryCode }: { countryCode: string }): JSX.Element {
       {isLoading ? (
         <h1 className="country-container">Loading...</h1>
       ) : error ? (
-        <>
-          <h1 className="country-container">
-            {error.response.data["message"]}
-          </h1>
-        </>
+        <ErrorHeading error={error} />
       ) : (
         <>
           <h1 className="center">{data["country"].name}</h1>

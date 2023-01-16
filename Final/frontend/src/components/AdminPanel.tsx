@@ -7,6 +7,7 @@ import {
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { promoteUser, suspendUser } from "../services/userSettings";
 import { User } from "../types/userTypes";
+import ErrorHeading from "./Error";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -55,11 +56,7 @@ const Example = (): JSX.Element => {
       {isLoading ? (
         <h1 className="country-container">Loading...</h1>
       ) : error ? (
-        <>
-          <h1 className="country-container">
-            {error.response.data["message"]}
-          </h1>
-        </>
+        <ErrorHeading error={error} />
       ) : (
         <>
           <h1 className="users-count">There are {userCount} users.</h1>
