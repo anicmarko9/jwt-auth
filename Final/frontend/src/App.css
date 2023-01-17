@@ -109,7 +109,6 @@ sup {
 .inputForm input[type="search"]::placeholder {
   color: #bbb;
 }
-
 .inputForm button[type="submit"] {
   text-indent: -999px;
   overflow: hidden;
@@ -124,9 +123,21 @@ sup {
   cursor: pointer;
   opacity: 0.7;
 }
+td button[type="button"] {
+  overflow: hidden;
+  width: 2.5em;
+  padding: 0;
+  margin: 0;
+  border: 0.063em solid transparent;
+  border-radius: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+}
+td button[type="button"]:hover,
 .inputForm button[type="submit"]:hover {
   opacity: 1;
 }
+td button[type="button"]:focus,
 .inputForm button[type="submit"]:focus,
 .inputForm input[type="search"]:focus {
   box-shadow: 0 0 0.188em 0 #1183d6;
@@ -136,6 +147,12 @@ sup {
 
 .variable {
   font-weight: 700;
+}
+.total-search .variable {
+  color: #810ca8;
+}
+.total-search .country-name {
+  color: #2d033b;
 }
 
 .results-container {
@@ -251,6 +268,14 @@ sup {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+.history-container .table thead tr,
+.history-container .table tbody tr {
+  justify-content: space-between;
+}
+.history-container .table tbody tr td {
+  text-align: left;
+}
+
 .table thead th {
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -269,6 +294,7 @@ sup {
   text-align: left;
   color: #810ca8;
 }
+
 .table tbody th {
   margin-right: 3em;
   margin-left: 3em;
@@ -293,7 +319,7 @@ sup {
 /* NavBar */
 
 .topnav {
-  background-color: #810ca8;
+  background-color: rgba(129, 12, 168, 0.5);
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -362,6 +388,9 @@ sup {
   vertical-align: middle;
   height: auto;
 }
+.userSettings .buttons .btn,
+.passwordSettings .buttons .btn,
+.history-links .btn,
 .action-buttons .btn {
   border: 1px solid white;
 }
@@ -468,7 +497,7 @@ sup {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  margin: 2% 10% 0;
+  margin: 0.5% 10% 0;
   width: 80%;
 }
 @media only screen and (max-width: 800px) {
@@ -481,7 +510,7 @@ sup {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-top: 2rem;
+  margin-bottom: 2rem;
   background-color: rgba(129, 12, 168, 0.4);
   border: none;
   border-radius: 0.625em;
@@ -623,16 +652,21 @@ sup {
   padding: 0.5rem 1rem;
 }
 .user-container .settings .passwordSettings .buttons,
-.user-container .settings .userSettings .buttons {
+.user-container .settings .userSettings .buttons,
+.user-container .settings .userSettings .history-links,
+.user-container .settings .passwordSettings .history-links {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  padding-bottom: 1rem;
 }
 @media only screen and (max-width: 900px) {
   .data-container .user-info .action-buttons,
   .user-container .settings .passwordSettings .buttons,
-  .user-container .settings .userSettings .buttons {
+  .user-container .settings .userSettings .buttons,
+  .user-container .settings .userSettings .history-links,
+  .user-container .settings .passwordSettings .history-links {
     width: 200px;
   }
 }
@@ -775,4 +809,81 @@ sup {
   padding: 1rem;
   text-align: center;
   letter-spacing: 1px;
+}
+
+.history-container .table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.history-container .table .total-search p {
+  text-align: center;
+  padding: 0.5rem 0.25rem;
+}
+.history-container .table .total-search ul li {
+  padding: 0.5rem 0.25rem;
+}
+td button svg {
+  width: 20px;
+  height: 20px;
+  fill: red;
+  opacity: 0.7;
+}
+td button {
+  background-color: transparent;
+  border: none;
+}
+th button {
+  background-color: transparent;
+  border: solid #2d033b 1px;
+  color: #2d033b;
+  font-weight: 700;
+  padding: 0.25rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  opacity: 0.7;
+}
+th button:hover {
+  opacity: 1;
+}
+
+.history-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2% 20% 2%;
+  border: solid #2d033b 2px;
+  border-radius: 0.25rem;
+}
+@media only screen and (max-width: 800px) {
+  .history-info {
+    width: 100%;
+    margin: 0 2% 2%;
+  }
+}
+.flag-query,
+.history-queries-info {
+  padding: 1rem;
+  margin: 0 0.5rem;
+}
+.flag-query {
+  text-align: center;
+}
+.flag-query ul li,
+.history-queries-info ol li {
+  margin-bottom: 1rem;
+}
+.text-title {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #2d033b;
 }

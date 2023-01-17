@@ -174,6 +174,14 @@ const Example = (): JSX.Element => {
                     Delete Account
                   </button>
                 </div>
+                <div className="history-links">
+                  <a href="/history" className="btn">
+                    My History
+                  </a>
+                  <a href="/history-admin" className="btn">
+                    All History
+                  </a>
+                </div>
               </div>
             ) : (
               <div className="passwordSettings">
@@ -220,6 +228,14 @@ const Example = (): JSX.Element => {
                   >
                     Delete Account
                   </button>
+                </div>
+                <div className="history-links">
+                  <a href="/history" className="btn">
+                    My History
+                  </a>
+                  <a href="/history-admin" className="btn">
+                    All History
+                  </a>
                 </div>
               </div>
             )}

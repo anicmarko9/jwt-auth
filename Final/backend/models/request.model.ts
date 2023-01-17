@@ -49,11 +49,8 @@ RequestCountry.init(
         request: RequestCountry,
         options: InstanceUpdateOptions<any> | CreateOptions<any>
       ): Promise<void> => {
-        const now: Date = new Date();
-        const date: string = `${now.getFullYear()}-${
-          now.getMonth() + 1
-        }-${now.getDate()}`;
-        const time: string = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+        const date: string = new Date().toISOString().slice(0, 10);
+        const time: string = new Date().toLocaleTimeString().slice(0, 8);
         request.timestamp = `${date} ${time}`;
       },
     },

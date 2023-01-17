@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { filterString, handleInput } from "../features/helper";
+import { handleInput } from "../features/helper";
 import { getWeathers } from "../services/weather";
 import { COUNTRIES } from "../mocks/mock";
 import Results from "./Results";

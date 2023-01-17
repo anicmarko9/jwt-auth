@@ -8,7 +8,7 @@ export const up = async ({ context: queryInterface }): Promise<void> => {
       autoIncrement: true,
     },
     name: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         isAlphanumeric: {
@@ -26,7 +26,7 @@ export const up = async ({ context: queryInterface }): Promise<void> => {
       type: DataTypes.TEXT,
     },
     email: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {

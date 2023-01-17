@@ -67,6 +67,7 @@ const adminCountSearches = async (
     where: {
       countryId: id,
     },
+    order: [["timestamp", "DESC"]],
   });
 };
 

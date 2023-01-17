@@ -34,7 +34,7 @@ User.init(
       autoIncrement: true,
     },
     name: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         isAlphanumeric: {
@@ -52,7 +52,7 @@ User.init(
       type: DataTypes.TEXT,
     },
     email: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {

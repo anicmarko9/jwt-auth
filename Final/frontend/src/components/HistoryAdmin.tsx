@@ -28,7 +28,7 @@ const Example = (): JSX.Element => {
     error,
     data,
   }: { isLoading: boolean; error: AxiosError; data: IHistory[] } = useQuery({
-    queryKey: ["history"],
+    queryKey: ["history-admin"],
     queryFn: async (): Promise<IHistory[]> => {
       const user = axios.get(`http://localhost:5000/users`, {
         withCredentials: true,
@@ -50,43 +50,64 @@ const Example = (): JSX.Element => {
   return (
     <div className="history-admin">
       {isLoading ? (
-        <h1>Loading...</h1>
+        <h1 className="country-container">Loading...</h1>
       ) : error ? (
         <>
           <ErrorHeading error={error} />
         </>
       ) : (
         <>
-          <h1>All History</h1>
+          <h1 className="center">All History</h1>
           {data.map((country: IHistory, index: number) => (
             <Fragment key={index}>
               <div className="history-info">
-                <img
-                  src={getCountry(countries, country.rows[0]).flagUrl}
-                  alt="Flag"
-                />
-                <ul>
-                  <li>{`${
+                <div className="flag-query">
+                  <img
+                    src={getCountry(countries, country.rows[0]).flagUrl}
+                    alt="Flag"
+                  />
+                  <ul>
+                    <p>
+                      {getCountry(countries, country.rows[0]).name} has been
+                      searched:{" "}
+                      <span className="variable country-name">
+                        {country.count}
+                      </span>{" "}
+                      times.
+                    </p>
+                    <li>
+                      Last time someone searched for this country:
+                      <p>
+                        <span className="variable country-name">
+                          {getUser(users, country.rows[0]).email}
+                        </span>{" "}
+                        at{" "}
+                        <span className="variable country-name">
+                          {country.rows[0].timestamp}
+                        </span>
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+                <div className="history-queries-info">
+                  <p className="text-title">{`Users who searched ${
                     getCountry(countries, country.rows[0]).name
-                  } has been searched: ${country.count} times.`}</li>
-                  <li>{`Last time someone searched for this country: ${
-                    getUser(users, country.rows[0]).email
-                  } at ${country.rows[0].timestamp}`}</li>
-                </ul>
-              </div>
-              <div className="history-queries-info">
-                <p>{`Users who searched ${
-                  getCountry(countries, country.rows[0]).name
-                }:`}</p>
-                <ol>
-                  {getUsersWhoSearched(country.rows, users).map(
-                    (user: User, index: number) => (
-                      <Fragment key={index}>
-                        <li>{`${user.name} <${user.email}>`}</li>
-                      </Fragment>
-                    )
-                  )}
-                </ol>
+                  }:`}</p>
+                  <ol>
+                    {getUsersWhoSearched(country.rows, users).map(
+                      (user: User, index: number) => (
+                        <Fragment key={index}>
+                          <li>
+                            {user.name}{" "}
+                            <span className="variable country-name">
+                              {`<${user.email}>`}
+                            </span>
+                          </li>
+                        </Fragment>
+                      )
+                    )}
+                  </ol>
+                </div>
               </div>
             </Fragment>
           ))}
