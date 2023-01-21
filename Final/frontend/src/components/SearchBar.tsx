@@ -7,6 +7,7 @@ import React from "react";
 import { Weather } from "../types/weatherTypes";
 import Table from "./Table";
 import { InputData } from "../types/userTypes";
+import LoadingPage from "./LoadingPage";
 
 const SearchBar = (): JSX.Element => {
   const [weathers, setWeathers] = useState<Weather[]>([]);
@@ -30,38 +31,38 @@ const SearchBar = (): JSX.Element => {
 
   return (
     <div className="home-container">
-      <Table countries={COUNTRIES} />
-      <form className="inputForm" onSubmit={handleSubmit}>
-        <select name="countries" id="countries">
-          {COUNTRIES.map(
-            (
-              country: { code: string; cities: string[] },
-              index: number
-            ): JSX.Element => (
-              <option key={index} value={country.code}>
-                {country.code}
-              </option>
-            )
-          )}
-        </select>
-        <input
-          id="cities"
-          type="search"
-          name="cities"
-          placeholder="Belgrade, Novi Sad, Niš"
-          required={true}
-        />
-        <button type="submit">Search</button>
-      </form>
-      <div className="results-container">
-        {loading ? (
-          <p className="card" id="loading">
-            Loading...
-          </p>
-        ) : (
-          <Results weathers={weathers} />
-        )}
-      </div>
+      {loading ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <Table countries={COUNTRIES} />
+          <form className="inputForm" onSubmit={handleSubmit}>
+            <select name="countries" id="countries">
+              {COUNTRIES.map(
+                (
+                  country: { code: string; cities: string[] },
+                  index: number
+                ): JSX.Element => (
+                  <option key={index} value={country.code}>
+                    {country.code}
+                  </option>
+                )
+              )}
+            </select>
+            <input
+              id="cities"
+              type="search"
+              name="cities"
+              placeholder="Belgrade, Novi Sad, Niš"
+              required={true}
+            />
+            <button type="submit">Search</button>
+          </form>
+          <div className="results-container">
+            <Results weathers={weathers} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

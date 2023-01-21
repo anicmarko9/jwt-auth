@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { handleInput } from "../features/helper";
 import { InputData } from "../types/userTypes";
 import { login } from "./../services/auth";
+import LoadingPage from "./LoadingPage";
 
 const LoginForm = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,21 +27,20 @@ const LoginForm = (): JSX.Element => {
 
   return (
     <div className="colm-form">
-      <form className="form-container" onSubmit={handleSubmit}>
-        <input id="email" type="text" placeholder="Email address" />
-        <input id="password" type="password" placeholder="Password" />
-        <button type="submit" className="btn-login">
-          Login
-        </button>
-        <a href="login/forgot-password">Forgotten password?</a>
-        <button type="button" onClick={createNewAcc} className="btn-new">
-          Create new Account
-        </button>
-      </form>
       {loading ? (
-        <p className="loading">Loading...</p>
+        <LoadingPage />
       ) : (
-        <p className="loading"></p>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <input id="email" type="text" placeholder="Email address" />
+          <input id="password" type="password" placeholder="Password" />
+          <button type="submit" className="btn-login">
+            Login
+          </button>
+          <a href="login/forgot-password">Forgotten password?</a>
+          <button type="button" onClick={createNewAcc} className="btn-new">
+            Create new Account
+          </button>
+        </form>
       )}
     </div>
   );

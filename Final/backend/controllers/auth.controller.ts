@@ -6,12 +6,15 @@ import {
   logout,
   signup,
   protect,
-  updatePassword,
   isLoggedIn,
   restrictTo,
+  createSendToken,
+} from "./../middlewares/auth.middleware";
+import {
   forgotPassword,
   resetPassword,
-} from "./../middlewares/auth.middleware";
+  updatePassword,
+} from "../services/auth.service";
 
 export async function signupUser(
   req: TypedRequestBody<User>,
@@ -62,7 +65,16 @@ export async function forgotPasswordLink(
   res: Response,
   next: NextFunction
 ) {
-  await forgotPassword(req, res, next);
+  try {
+    const { email } = req.body;
+    await forgotPassword(email);
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email!",
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 export async function resetPasswordLink(
@@ -70,7 +82,17 @@ export async function resetPasswordLink(
   res: Response,
   next: NextFunction
 ) {
-  await resetPassword(req, res, next);
+  try {
+    const { password, passwordConfirm } = req.body;
+    const user: User = await resetPassword(
+      password,
+      passwordConfirm,
+      req.params.token.toString()
+    );
+    createSendToken(user, 200, req, res);
+  } catch (err) {
+    next(err);
+  }
 }
 
 export async function updateMyPassword(
@@ -78,5 +100,16 @@ export async function updateMyPassword(
   res: Response,
   next: NextFunction
 ) {
-  await updatePassword(req, res, next);
+  try {
+    const { password, passwordConfirm, passwordCurrent } = req.body;
+    const user: User = await updatePassword(
+      password,
+      passwordConfirm,
+      passwordCurrent,
+      parseInt(req.params.id)
+    );
+    createSendToken(user, 200, req, res);
+  } catch (err) {
+    next(err);
+  }
 }

@@ -6,12 +6,9 @@ import { NextFunction, Response } from "express";
 import { sendEmail } from "./../services/email.service";
 import {
   authLogin,
-  authResetPassword,
   authSignup,
   checkLogin,
   findUser,
-  setUserResetToken,
-  validateUserPassword,
 } from "../services/auth.service";
 
 const signToken = (id: number): string => {
@@ -20,7 +17,7 @@ const signToken = (id: number): string => {
   });
 };
 
-const createSendToken = (
+export const createSendToken = (
   user: User,
   statusCode: number,
   req: TypedRequestBody<User>,
@@ -201,83 +198,4 @@ export const restrictTo = (
     }
     next();
   };
-};
-
-export const forgotPassword = async (
-  req: TypedRequestBody<User>,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    var user: User = await setUserResetToken(req.body.email);
-    const resetToken: string = user.createPasswordResetToken();
-    const resetURL: string = `http://localhost:3000/reset-password/${resetToken}`;
-    const prom1: Promise<User> = user.save({ validate: false });
-    const prom2: Promise<void> = sendEmail(user, resetURL, "PasswordReset");
-    await Promise.all([prom1, prom2]);
-    res.status(200).json({
-      status: "success",
-      message: "Token sent to email!",
-    });
-  } catch (err) {
-    if (err.statusCode === 404 || err.statusCode === 400) next(err);
-    else {
-      user.passwordResetToken = undefined;
-      user.passwordResetExpires = undefined;
-      await user.save({ validate: false });
-      next(
-        new AppError(
-          "There was an error sending the email. Try again later!",
-          500
-        )
-      );
-    }
-  }
-};
-
-export const resetPassword = async (
-  req: TypedRequestBody<User>,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  const { password, passwordConfirm } = req.body;
-  try {
-    const user: User = await authResetPassword(
-      password,
-      passwordConfirm,
-      req.params.token
-    );
-    // login user, send JWT
-    createSendToken(user, 200, req, res);
-  } catch (err) {
-    if (err.isOperational) {
-      next(err);
-    } else {
-      next(new AppError(err.errors[0].message, 400));
-    }
-  }
-};
-
-export const updatePassword = async (
-  req: TypedRequestBody<User>,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const user: User = await validateUserPassword(
-      req.body.password,
-      req.body.passwordConfirm,
-      req.body.passwordCurrent,
-      req.user.id
-    );
-
-    // login user, send JWT
-    createSendToken(user, 200, req, res);
-  } catch (err) {
-    if (err.isOperational) {
-      next(err);
-    } else {
-      next(new AppError(err.errors[0].message, 400));
-    }
-  }
 };

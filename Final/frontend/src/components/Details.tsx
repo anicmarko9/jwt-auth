@@ -10,6 +10,7 @@ import Results from "./Results";
 import { checkCity } from "../services/weather";
 import { Country } from "../types/weatherTypes";
 import ErrorHeading from "./Error";
+import LoadingPage from "./LoadingPage";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -65,7 +66,7 @@ function Example({ countryCode }: { countryCode: string }): JSX.Element {
   return (
     <div>
       {isLoading ? (
-        <h1 className="country-container">Loading...</h1>
+        <LoadingPage />
       ) : error ? (
         <ErrorHeading error={error} />
       ) : (

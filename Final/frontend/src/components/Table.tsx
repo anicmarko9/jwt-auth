@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 const Table = ({
   countries,
@@ -22,7 +23,9 @@ const Table = ({
             ): JSX.Element => (
               <Fragment key={index}>
                 <tr>
-                  <th>{country.code}</th>
+                  <th>
+                    <Link to={`/weathers/${country.code}`}>{country.code}</Link>
+                  </th>
                   {country.cities.map(
                     (city: string, index: number): JSX.Element => (
                       <Fragment key={index}>

@@ -78,3 +78,15 @@ export const deleteOneTimestamp = async (id: number): Promise<void> => {
     catchError(typedError);
   }
 };
+
+export const checkData = (data: IHistory[]): boolean => {
+  const array: IHistory[] = [];
+  data.forEach((country: IHistory) => {
+    if (country.rows.length > 0) return array.push(country);
+    else return array.push(null);
+  });
+
+  const value: boolean = array.every((element: IHistory) => element === null);
+  console.log(data);
+  return value;
+};

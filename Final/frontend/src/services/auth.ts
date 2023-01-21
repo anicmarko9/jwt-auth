@@ -107,7 +107,7 @@ export const sendEmailResetToken = async (email: string): Promise<void> => {
 const fetchResetToken = async (email: string): Promise<void> => {
   try {
     const response: AxiosResponse = await axios.post(
-      "http://localhost:5000/users/forgot-password",
+      "http://localhost:5000/users/reset-password",
       { email }
     );
     toast.success(response.data.message, {
@@ -140,7 +140,7 @@ const fetchResetPassword = async (
 ): Promise<User> => {
   try {
     const response: AxiosResponse = await axios.patch(
-      `http://localhost:5000/users/reset-password/${token}`,
+      `http://localhost:5000/users/password-reset/confirm/${token}`,
       { password, passwordConfirm },
       { withCredentials: true }
     );

@@ -10,6 +10,7 @@ import { deleteMe, updateUser } from "../services/userSettings";
 import { InputData, User } from "../types/userTypes";
 import { handleInput } from "../features/helper";
 import ErrorHeading from "./Error";
+import LoadingPage from "./LoadingPage";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -74,7 +75,7 @@ const Example = (): JSX.Element => {
   return (
     <div>
       {isLoading ? (
-        <h1 className="country-container">Loading...</h1>
+        <LoadingPage />
       ) : error ? (
         <>
           <ErrorHeading error={error} />
@@ -88,6 +89,7 @@ const Example = (): JSX.Element => {
                 <img className="item profile" src={data.photo} alt="Avatar" />
                 {data.role === "admin" ? (
                   <h4
+                    id="account-name"
                     style={{ color: "red", cursor: "pointer" }}
                     onClick={() => window.location.assign("/admin")}
                     className="item"

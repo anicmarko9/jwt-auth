@@ -24,11 +24,13 @@ RequestCountry.init(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete: "CASCADE",
       references: { model: "users", key: "id" },
     },
     countryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete: "CASCADE",
       references: { model: "countries", key: "id" },
     },
     query: {
@@ -41,7 +43,6 @@ RequestCountry.init(
   },
   {
     sequelize,
-    paranoid: true,
     timestamps: false,
     modelName: "request",
     hooks: {

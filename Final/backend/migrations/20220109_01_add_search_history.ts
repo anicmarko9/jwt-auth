@@ -10,11 +10,13 @@ export const up = async ({ context: queryInterface }): Promise<void> => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete: "CASCADE",
       references: { model: "users", key: "id" },
     },
     countryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete: "CASCADE",
       references: { model: "countries", key: "id" },
     },
     query: {

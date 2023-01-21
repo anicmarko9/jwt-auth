@@ -2,6 +2,7 @@ import * as crypto from "crypto";
 import AppError from "../utils/AppError";
 import { User } from "../models/relationships.model";
 import { Op } from "sequelize";
+import { sendEmail } from "./email.service";
 
 export const authSignup = async (
   name: string,
@@ -136,4 +137,73 @@ const hashToken = (token: string): string => {
   // digest with same method from model method
   // so it can match token from DB
   return crypto.createHash("sha256").update(token).digest("hex");
+};
+
+export const forgotPassword = async (email: string): Promise<void> => {
+  try {
+    var user: User = await setUserResetToken(email);
+    const resetToken: string = user.createPasswordResetToken();
+    const resetURL: string = `http://localhost:3000/reset-password/${resetToken}`;
+    const prom1: Promise<User> = user.save({ validate: false });
+    const prom2: Promise<void> = sendEmail(user, resetURL, "PasswordReset");
+    await Promise.all([prom1, prom2]);
+  } catch (err) {
+    if (err.statusCode === 404 || err.statusCode === 400) throw err;
+    else {
+      user.passwordResetToken = null;
+      user.passwordResetExpires = null;
+      await user.save({ validate: false });
+      throw new AppError(
+        "There was an error sending the email. Try again later!",
+        500
+      );
+    }
+  }
+};
+
+export const resetPassword = async (
+  password: string,
+  passwordConfirm: string,
+  token: string
+): Promise<User> => {
+  try {
+    const user: User = await authResetPassword(
+      password,
+      passwordConfirm,
+      token
+    );
+    // login user, send JWT
+    return user;
+  } catch (err) {
+    if (err.isOperational) {
+      throw err;
+    } else {
+      throw new AppError(err.errors[0].message, 400);
+    }
+  }
+};
+
+export const updatePassword = async (
+  password: string,
+  passwordConfirm: string,
+  passwordCurrent: string,
+  id: number
+): Promise<User> => {
+  try {
+    const user: User = await validateUserPassword(
+      password,
+      passwordConfirm,
+      passwordCurrent,
+      id
+    );
+
+    // login user, send JWT
+    return user;
+  } catch (err) {
+    if (err.isOperational) {
+      throw err;
+    } else {
+      throw new AppError(err.errors[0].message, 400);
+    }
+  }
 };

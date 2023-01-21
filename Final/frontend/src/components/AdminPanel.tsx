@@ -8,6 +8,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { promoteUser, suspendUser } from "../services/userSettings";
 import { User } from "../types/userTypes";
 import ErrorHeading from "./Error";
+import LoadingPage from "./LoadingPage";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -54,7 +55,7 @@ const Example = (): JSX.Element => {
   return (
     <div>
       {isLoading ? (
-        <h1 className="country-container">Loading...</h1>
+        <LoadingPage />
       ) : error ? (
         <ErrorHeading error={error} />
       ) : (

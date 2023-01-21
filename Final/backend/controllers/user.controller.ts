@@ -86,7 +86,7 @@ export async function deleteUser(
 ) {
   const { id } = req.params;
   try {
-    if (req.params.id === req.user.id.toString()) logoutUser(req, res, next);
+    if (parseInt(req.params.id) === req.user.id) logoutUser(req, res, next);
     await deleteOne(parseInt(id));
     res.status(204).json({
       status: "success",

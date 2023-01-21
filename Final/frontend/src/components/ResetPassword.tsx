@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { handleInput } from "../features/helper";
 import { resetPassword } from "../services/auth";
 import { InputData } from "../types/userTypes";
+import LoadingPage from "./LoadingPage";
 
 const ResetPassword = (): JSX.Element => {
   const { token } = useParams<string>();
@@ -24,30 +25,29 @@ const ResetPassword = (): JSX.Element => {
 
   return (
     <div className="reset-password">
-      <form onSubmit={handleSubmit}>
-        <h2>Reset password</h2>
-        <p>Please enter your new password and confirm it.</p>
-        <input
-          type="password"
-          id="password"
-          placeholder="New password"
-          autoFocus={true}
-        />
-        <input
-          type="password"
-          id="passwordConfirm"
-          placeholder="Confirm password"
-          autoFocus={true}
-        />
-        <div>
-          <button type="submit">Reset password</button>
-          <a href="/login">Back to login</a>
-        </div>
-      </form>
       {loading ? (
-        <p className="loading">Loading...</p>
+        <LoadingPage />
       ) : (
-        <p className="loading"></p>
+        <form onSubmit={handleSubmit}>
+          <h2>Reset password</h2>
+          <p>Please enter your new password and confirm it.</p>
+          <input
+            type="password"
+            id="password"
+            placeholder="New password"
+            autoFocus={true}
+          />
+          <input
+            type="password"
+            id="passwordConfirm"
+            placeholder="Confirm password"
+            autoFocus={true}
+          />
+          <div>
+            <button type="submit">Reset password</button>
+            <a href="/login">Back to login</a>
+          </div>
+        </form>
       )}
     </div>
   );

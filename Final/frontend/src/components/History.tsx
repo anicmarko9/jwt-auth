@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   clearAll,
   deleteOneTimestamp,
@@ -14,6 +15,7 @@ import {
 } from "../services/history";
 import { Country, IHistory, IQuery } from "../types/weatherTypes";
 import ErrorHeading from "./Error";
+import LoadingPage from "./LoadingPage";
 
 const queryClient: QueryClient = new QueryClient();
 
@@ -55,7 +57,7 @@ const Example = (): JSX.Element => {
   return (
     <div className="history-container">
       {isLoading ? (
-        <h1 className="country-container">Loading...</h1>
+        <LoadingPage />
       ) : error ? (
         <>
           <ErrorHeading error={error} />
@@ -77,10 +79,14 @@ const Example = (): JSX.Element => {
               {history.map((queryData: IQuery, index: number) => (
                 <Fragment key={index}>
                   <tr>
-                    <td>{queryData.timestamp}</td>
-                    <td>{`${getCountry(countries, queryData).name} [${
-                      getCountry(countries, queryData).capitalCity
-                    }] <${queryData.query}>`}</td>
+                    <td className="dark-color">{queryData.timestamp}</td>
+                    <td>
+                      <Link to={`/weathers/${queryData.query}`}>
+                        {getCountry(countries, queryData).name} [
+                        {getCountry(countries, queryData).capitalCity}]{" "}
+                        {queryData.query}
+                      </Link>
+                    </td>
                     <td>
                       <button
                         type="button"
