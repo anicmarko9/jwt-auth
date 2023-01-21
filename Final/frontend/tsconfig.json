@@ -10,6 +10,7 @@
     "moduleResolution": "node",
     "rootDir": "src",
     "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
     "strict": false
   },
   "exclude": [
