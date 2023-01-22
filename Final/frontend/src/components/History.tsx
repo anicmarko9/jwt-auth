@@ -37,10 +37,15 @@ const Example = (): JSX.Element => {
   }: { isLoading: boolean; error: AxiosError; data: IHistory[] } = useQuery({
     queryKey: ["history"],
     queryFn: async (): Promise<IHistory[]> => {
-      const countriesPromise = axios.get(`http://localhost:5000/weathers`);
-      const historyPromise = axios.get(`http://localhost:5000/history/me`, {
-        withCredentials: true,
-      });
+      const countriesPromise = axios.get(
+        `${process.env.REACT_APP_SERVER_URL}weathers`
+      );
+      const historyPromise = axios.get(
+        `${process.env.REACT_APP_SERVER_URL}history/me`,
+        {
+          withCredentials: true,
+        }
+      );
       const all: AxiosResponse[] = await Promise.all([
         countriesPromise,
         historyPromise,

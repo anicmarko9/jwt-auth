@@ -30,7 +30,7 @@ const Example = (): JSX.Element => {
     queryKey: ["allUsers"],
     queryFn: async (): Promise<User[]> => {
       const response: AxiosResponse = await axios.get(
-        `http://localhost:5000/users/`,
+        `${process.env.REACT_APP_SERVER_URL}users/`,
         { withCredentials: true }
       );
       setUserCount(response.data.results);

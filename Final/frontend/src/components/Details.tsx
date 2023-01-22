@@ -32,7 +32,7 @@ function Example({ countryCode }: { countryCode: string }): JSX.Element {
     queryKey: ["countryData"],
     queryFn: async (): Promise<Country> => {
       const response: AxiosResponse = await axios.get(
-        `http://localhost:5000/weathers/country?countryCode=${countryCode}`,
+        `${process.env.REACT_APP_SERVER_URL}weathers/country?countryCode=${countryCode}`,
         { withCredentials: true }
       );
       if (response.data.country)

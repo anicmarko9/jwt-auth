@@ -31,7 +31,7 @@ const Example = (): JSX.Element => {
     queryKey: ["userInfo"],
     queryFn: async (): Promise<User> => {
       const response: AxiosResponse = await axios.get(
-        `http://localhost:5000/users/me`,
+        `${process.env.REACT_APP_SERVER_URL}users/me`,
         { withCredentials: true }
       );
       return response.data.data.user;

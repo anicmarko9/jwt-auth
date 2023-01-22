@@ -41,14 +41,7 @@ app.use(cookieParser());
 //   next();
 // });
 
-app.use(
-  cors({
-    origin:
-      "http://localhost:3000" ||
-      "https://63cc55e874077a662afc8254--weather-frontend.netlify.app",
-    credentials: true,
-  })
-);
+app.use(cors({ origin: `${process.env.FRONT_URL}`, credentials: true }));
 
 // Limit requests from same API
 const limiter: RateLimitRequestHandler = rateLimit({

@@ -5,18 +5,19 @@ import { logout } from "./auth";
 import catchError from "./catchError";
 
 export const updateUser = async (name: string, bio: string): Promise<void> => {
-  window.localStorage.removeItem("user");
   const data: User = await fetchUpdateUser(name, bio);
-  window.setTimeout(() => {
-    window.location.reload();
-  }, 1000);
-  window.localStorage.setItem("user", JSON.stringify(data));
+  if (data) {
+    window.setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+    window.localStorage.setItem("user", JSON.stringify(data));
+  }
 };
 
 const fetchUpdateUser = async (name: string, bio: string): Promise<User> => {
   try {
     const response: AxiosResponse = await axios.patch(
-      "http://localhost:5000/users/me",
+      `${process.env.REACT_APP_SERVER_URL}users/me`,
       { name, bio },
       { withCredentials: true }
     );
@@ -32,16 +33,16 @@ const fetchUpdateUser = async (name: string, bio: string): Promise<User> => {
 
 export const deleteMe = async (): Promise<void> => {
   await fetchDeleteMe();
-  await logout();
 };
 const fetchDeleteMe = async (): Promise<void> => {
   try {
-    await axios.delete("http://localhost:5000/users/me", {
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}users/me`, {
       withCredentials: true,
     });
     toast.info("User deleted.", {
       position: "bottom-left",
     });
+    await logout();
   } catch (error) {
     const typedError = error as AxiosError;
     catchError(typedError);
@@ -58,7 +59,7 @@ export const promoteUser = async (id: number, role: string): Promise<void> => {
 const fetchPromotion = async (id: number, role: string): Promise<void> => {
   try {
     await axios.patch(
-      `http://localhost:5000/users/${id}`,
+      `${process.env.REACT_APP_SERVER_URL}users/${id}`,
       { role },
       { withCredentials: true }
     );
@@ -82,7 +83,7 @@ export const suspendUser = async (id: number): Promise<void> => {
 
 const fetchDelete = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`http://localhost:5000/users/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}users/${id}`, {
       withCredentials: true,
     });
     toast.error("User deleted.", {

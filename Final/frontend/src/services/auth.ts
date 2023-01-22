@@ -19,7 +19,7 @@ const fetchLoginToken = async (
 ): Promise<User> => {
   try {
     const response: AxiosResponse = await axios.post(
-      "http://localhost:5000/users/login",
+      `${process.env.REACT_APP_SERVER_URL}users/login`,
       {
         email,
         password,
@@ -46,7 +46,7 @@ export const logout = async (): Promise<void> => {
 
 export const fetchLogout = async (): Promise<void> => {
   try {
-    await axios.get("http://localhost:5000/users/logout", {
+    await axios.get(`${process.env.REACT_APP_SERVER_URL}users/logout`, {
       withCredentials: true,
     });
     toast.info("Logged out", {
@@ -86,7 +86,7 @@ const fetchSignupToken = async (
 ): Promise<User> => {
   try {
     const response = await axios.post(
-      "http://localhost:5000/users/signup",
+      `${process.env.REACT_APP_SERVER_URL}users/signup`,
       { name, email, password, passwordConfirm },
       { withCredentials: true }
     );
@@ -107,7 +107,7 @@ export const sendEmailResetToken = async (email: string): Promise<void> => {
 const fetchResetToken = async (email: string): Promise<void> => {
   try {
     const response: AxiosResponse = await axios.post(
-      "http://localhost:5000/users/reset-password",
+      `${process.env.REACT_APP_SERVER_URL}users/reset-password`,
       { email }
     );
     toast.success(response.data.message, {
@@ -140,7 +140,7 @@ const fetchResetPassword = async (
 ): Promise<User> => {
   try {
     const response: AxiosResponse = await axios.patch(
-      `http://localhost:5000/users/password-reset/confirm/${token}`,
+      `${process.env.REACT_APP_SERVER_URL}users/password-reset/confirm/${token}`,
       { password, passwordConfirm },
       { withCredentials: true }
     );
@@ -177,7 +177,7 @@ const fetchUpdatePassword = async (
 ): Promise<User> => {
   try {
     const response: AxiosResponse = await axios.patch(
-      "http://localhost:5000/users/password",
+      `${process.env.REACT_APP_SERVER_URL}users/password`,
       { passwordCurrent, password, passwordConfirm },
       { withCredentials: true }
     );

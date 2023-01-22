@@ -106,7 +106,7 @@ export async function updateMyPassword(
       password,
       passwordConfirm,
       passwordCurrent,
-      parseInt(req.params.id)
+      req.user.id
     );
     createSendToken(user, 200, req, res);
   } catch (err) {

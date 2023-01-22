@@ -22,7 +22,7 @@ const SignupForm = (): JSX.Element => {
     } catch (error) {
       return;
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
 

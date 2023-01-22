@@ -45,9 +45,21 @@ export const sortHistory = (input: IHistory[]): IQuery[] => {
   return sortedArray;
 };
 
+export const checkData = (data: IHistory[]): boolean => {
+  const array: IHistory[] = [];
+  data.forEach((country: IHistory) => {
+    if (country.rows.length > 0) return array.push(country);
+    else return array.push(null);
+  });
+
+  const value: boolean = array.every((element: IHistory) => element === null);
+  console.log(data);
+  return value;
+};
+
 export const clearAll = async (): Promise<void> => {
   try {
-    await axios.delete(`http://localhost:5000/history/me`, {
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}history/me`, {
       withCredentials: true,
     });
     toast.info("History deleted.", {
@@ -64,7 +76,7 @@ export const clearAll = async (): Promise<void> => {
 
 export const deleteOneTimestamp = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`http://localhost:5000/history/me/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}history/me/${id}`, {
       withCredentials: true,
     });
     toast.info("Query deleted.", {
@@ -77,16 +89,4 @@ export const deleteOneTimestamp = async (id: number): Promise<void> => {
     const typedError = err as AxiosError;
     catchError(typedError);
   }
-};
-
-export const checkData = (data: IHistory[]): boolean => {
-  const array: IHistory[] = [];
-  data.forEach((country: IHistory) => {
-    if (country.rows.length > 0) return array.push(country);
-    else return array.push(null);
-  });
-
-  const value: boolean = array.every((element: IHistory) => element === null);
-  console.log(data);
-  return value;
 };

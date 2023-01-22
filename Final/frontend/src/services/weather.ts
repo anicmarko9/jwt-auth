@@ -25,7 +25,7 @@ const fetchData = async (data: {
 }): Promise<City[]> => {
   try {
     const response: AxiosResponse = await axios.get(
-      `http://localhost:5000/weathers/forecast?cities=${data.cities}&countries=${data.countries}`,
+      `${process.env.REACT_APP_SERVER_URL}weathers/forecast?cities=${data.cities}&countries=${data.countries}`,
       { withCredentials: true }
     );
     return response.data.weather;
@@ -41,7 +41,7 @@ export const checkCity = (city: City, country: string): Weather => {
     return {
       error: msg,
       gradientColors: ["#39f", "#f93"],
-      // avg temp = 90 just so it will be sorted as last element later on...
+      // avg temp = 900 just so it will be sorted as last element later on...
       dblAvgTemp: 900,
       country,
     };

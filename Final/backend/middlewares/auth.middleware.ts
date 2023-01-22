@@ -62,7 +62,7 @@ export const signup = async (
       passwordConfirm,
       role
     );
-    const url: string = "http://localhost:3000/me";
+    const url: string = `${process.env.FRONT_URL}/me`;
     await sendEmail(newUser, url, "Welcome");
     createSendToken(newUser, 201, req, res);
   } catch (err) {

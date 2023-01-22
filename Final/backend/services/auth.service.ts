@@ -143,7 +143,7 @@ export const forgotPassword = async (email: string): Promise<void> => {
   try {
     var user: User = await setUserResetToken(email);
     const resetToken: string = user.createPasswordResetToken();
-    const resetURL: string = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetURL: string = `${process.env.FRONT_URL}/reset-password/${resetToken}`;
     const prom1: Promise<User> = user.save({ validate: false });
     const prom2: Promise<void> = sendEmail(user, resetURL, "PasswordReset");
     await Promise.all([prom1, prom2]);
@@ -190,15 +190,12 @@ export const updatePassword = async (
   id: number
 ): Promise<User> => {
   try {
-    const user: User = await validateUserPassword(
+    return await validateUserPassword(
       password,
       passwordConfirm,
       passwordCurrent,
       id
     );
-
-    // login user, send JWT
-    return user;
   } catch (err) {
     if (err.isOperational) {
       throw err;
