@@ -1,9 +1,4 @@
-import {
-  Model,
-  DataTypes,
-  InstanceUpdateOptions,
-  CreateOptions,
-} from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../utils/db.util";
 import { City } from "../types/weather.type";
 

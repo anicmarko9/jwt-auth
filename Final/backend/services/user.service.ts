@@ -65,7 +65,7 @@ export const getOne = async (id: number): Promise<User> => {
   return user;
 };
 
-export const updateOne = async (data: User, id: string): Promise<User> => {
+export const updateOne = async (data: User, id: number): Promise<User> => {
   const user: User = await User.scope("withoutPassword").findByPk(id);
   if (!user) throw new AppError("No user found with that ID", 404);
   if (data.role) user.role = data.role;
@@ -76,7 +76,7 @@ export const updateOne = async (data: User, id: string): Promise<User> => {
 const filterObj = (obj: unknown, ...allowedFields: string[]): unknown => {
   const newObj: unknown = {};
   // obj -> array
-  Object.keys(obj).forEach((el) => {
+  Object.keys(obj).forEach((el: string) => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
   });
   return newObj;
@@ -95,7 +95,7 @@ export const updateMyself = async (
     );
   }
 
-  // allow only name and email to be updated
+  // allow only name, bio and email to be updated
   const filteredBody: unknown = filterObj(data, "name", "bio", "role");
   if (file) filteredBody["photo"] = file.filename;
 

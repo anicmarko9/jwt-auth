@@ -1,7 +1,7 @@
 import { City, ICountry } from "../types/weather.type";
 import axios from "axios";
 import { fetchCity } from "./weather.service";
-import { COUNTRIES } from "../../frontend/src/mocks/mock";
+import { COUNTRIES } from "./../mocks/countries.mock";
 import AppError from "../utils/AppError";
 import { Country } from "../models/relationships.model";
 
@@ -40,7 +40,6 @@ export const searchCountryDetails = async (
     console.timeEnd("\nFetched all data synchronously in");
     return await Country.create(country);
   }
-
   console.timeEnd("\nFetched all data synchronously in");
   return findCountry;
 };

@@ -30,7 +30,9 @@ export const authLogin = async (
 
 export const findUser = async (id: string, iat: number): Promise<User> => {
   // check if user still exists
-  const currentUser: User = await User.scope("withoutPassword").findByPk(id);
+  const currentUser: User = await User.scope("withoutPassword").findByPk(
+    parseInt(id)
+  );
   if (!currentUser) throw checkUser(401);
 
   // check if user changed password after the token was issued
@@ -44,7 +46,9 @@ export const findUser = async (id: string, iat: number): Promise<User> => {
 };
 
 export const checkLogin = async (id: string, iat: number): Promise<User> => {
-  const currentUser: User = await User.scope("withoutPassword").findByPk(id);
+  const currentUser: User = await User.scope("withoutPassword").findByPk(
+    parseInt(id)
+  );
   if (!currentUser) {
     throw checkUser(401);
   }
@@ -88,8 +92,8 @@ export const authResetPassword = async (
   // if token hasn't expired, and there is user, set the new password
   user.password = password;
   user.passwordConfirm = passwordConfirm;
-  user.passwordResetToken = undefined;
-  user.passwordResetExpires = undefined;
+  user.passwordResetToken = null;
+  user.passwordResetExpires = null;
   // changedPasswordAt -> updated pre-save
   await user.save();
   return user;
@@ -101,7 +105,7 @@ export const validateUserPassword = async (
   passwordCurrent: string,
   id: number
 ): Promise<User> => {
-  // get user from collection
+  // get user from DB
   const user: User = await User.findByPk(id);
 
   // check if POSTed current password is correct
@@ -113,30 +117,6 @@ export const validateUserPassword = async (
   user.passwordConfirm = passwordConfirm;
   await user.save();
   return user;
-};
-
-const checkUser = (code: number): AppError => {
-  let text: string;
-  switch (code) {
-    case 400:
-      text = "Token is invalid or has expired";
-      break;
-    case 401:
-      text = "The user belonging to this token does no longer exist.";
-      break;
-    case 404:
-      text = "There is no user with this email address.";
-      break;
-    default:
-      text = "Something went very wrong!";
-  }
-  return new AppError(text, code);
-};
-
-const hashToken = (token: string): string => {
-  // digest with same method from model method
-  // so it can match token from DB
-  return crypto.createHash("sha256").update(token).digest("hex");
 };
 
 export const forgotPassword = async (email: string): Promise<void> => {
@@ -203,4 +183,28 @@ export const updatePassword = async (
       throw new AppError(err.errors[0].message, 400);
     }
   }
+};
+
+const checkUser = (code: number): AppError => {
+  let text: string;
+  switch (code) {
+    case 400:
+      text = "Token is invalid or has expired";
+      break;
+    case 401:
+      text = "The user belonging to this token does no longer exist.";
+      break;
+    case 404:
+      text = "There is no user with this email address.";
+      break;
+    default:
+      text = "Something went very wrong!";
+  }
+  return new AppError(text, code);
+};
+
+const hashToken = (token: string): string => {
+  // digest with same method from model method
+  // so it can match token from DB
+  return crypto.createHash("sha256").update(token).digest("hex");
 };

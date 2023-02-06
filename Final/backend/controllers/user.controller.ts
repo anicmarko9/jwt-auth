@@ -67,7 +67,7 @@ export async function updateUser(
   const data: User = req.body;
   const { id } = req.params;
   try {
-    const user: User = await updateOne(data, id);
+    const user: User = await updateOne(data, parseInt(id));
     res.status(200).json({
       status: "success",
       data: {
@@ -86,7 +86,7 @@ export async function deleteUser(
 ) {
   const { id } = req.params;
   try {
-    if (parseInt(req.params.id) === req.user.id) logoutUser(req, res, next);
+    if (parseInt(id) === req.user.id) logoutUser(req, res, next);
     await deleteOne(parseInt(id));
     res.status(204).json({
       status: "success",

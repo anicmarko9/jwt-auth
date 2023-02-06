@@ -36,8 +36,8 @@ export const createSendToken = (
   });
 
   // remove password from output
-  user.password = undefined;
-  user.passwordConfirm = undefined;
+  user.password = null;
+  user.passwordConfirm = null;
 
   res.status(statusCode).json({
     status: "success",
@@ -65,11 +65,15 @@ export const signup = async (
     const url: string = `${process.env.FRONT_URL}/me`;
     await sendEmail(newUser, url, "Welcome");
     createSendToken(newUser, 201, req, res);
-  } catch (err) {
-    if (err.isOperational) {
-      next(err);
+  } catch (error) {
+    if (error.isOperational) {
+      next(error);
     } else {
-      next(new AppError(err.errors[0].message, 400));
+      try {
+        next(new AppError(error.errors[0].message, 400));
+      } catch (err) {
+        next(error);
+      }
     }
   }
 };

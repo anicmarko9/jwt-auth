@@ -1,16 +1,24 @@
 import { QueryInterface, Sequelize } from "sequelize";
 import { Umzug, SequelizeStorage, MigrationMeta, UmzugOptions } from "umzug";
 
-export const sequelize: Sequelize = new Sequelize(
-  "users",
-  "postgres",
-  "qwerty123",
-  {
-    host: "localhost",
-    dialect: "postgres",
-    logging: false,
-  }
-);
+// export const sequelize: Sequelize = new Sequelize(
+//   process.env.DATABASE_LOCAL,
+//   process.env.DATABASE_USERNAME,
+//   process.env.DATABASE_PASSWORD,
+//   {
+//     host: process.env.DATABASE_HOST,
+//     dialect: "postgres",
+//     logging: false,
+//   }
+// );
+
+export const sequelize: Sequelize = new Sequelize(process.env.POSTGRES_URL, {
+  username: process.env.POSTGRES_USERNAME,
+  database: process.env.POSTGRES_DATABASE,
+  password: process.env.POSTGRES_PASSWORD,
+  dialect: "postgres",
+  logging: false,
+});
 
 const migrationConf: UmzugOptions<QueryInterface> = {
   migrations: {
@@ -45,6 +53,4 @@ export const connectToDatabase = async (): Promise<void> => {
     console.error(err);
     return process.exit(1);
   }
-
-  return null;
 };

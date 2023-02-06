@@ -1,6 +1,6 @@
 import { City } from "./../types/weather.type";
 import axios from "axios";
-import { COUNTRIES } from "./../../frontend/src/mocks/mock";
+import { COUNTRIES } from "./../mocks/countries.mock";
 
 const APIKEY: string = process.env.OPEN_WEATHER_KEY;
 const API: string = process.env.API;

@@ -144,6 +144,7 @@ User.init(
         }
         if (user.changed("password")) {
           user.password = await bcrypt.hash(user.password, 12);
+          user.passwordConfirm = "**********";
         }
         if (!user.isNewRecord && user.changed("password"))
           user.passwordChangedAt = new Date(Date.now() - 1000);

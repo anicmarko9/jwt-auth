@@ -10,12 +10,6 @@ import helmet from "helmet";
 import AppError from "./utils/AppError";
 import * as cors from "cors";
 
-process.on("uncaughtException", (err: Error) => {
-  console.log("Uncaught Exception!  Shutting down...");
-  console.log(err.name, err.message);
-  process.exit(1);
-});
-
 // Set security HTTP headers
 app.use(helmet());
 

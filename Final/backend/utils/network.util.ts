@@ -1,7 +1,6 @@
 import * as os from "os";
 
-/* >> This function returns IP Address
-of Server on which API is running << */
+/* >> This function returns IP Address of Server on which API is running << */
 export function getHostAddress(): string {
   const nets: NodeJS.Dict<os.NetworkInterfaceInfo[]> = os.networkInterfaces();
   const results: object = Object.create(null); // Or just '{}', an empty object

@@ -34,7 +34,7 @@ const server: Server = app
 
 process.on("unhandledRejection", (err: Error) => {
   console.log("Unhandled Rejection! Shutting down...");
-  console.log(err.name, err.message);
+  console.error(err);
   server.close(() => {
     process.exit(1);
   });

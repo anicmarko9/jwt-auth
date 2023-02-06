@@ -95,6 +95,7 @@ export const up = async ({ context: queryInterface }): Promise<void> => {
       type: DataTypes.BIGINT,
     },
   });
+
   await queryInterface.createTable("countries", {
     id: {
       type: DataTypes.INTEGER,
@@ -148,6 +149,7 @@ export const up = async ({ context: queryInterface }): Promise<void> => {
     },
   });
 };
+
 export const down = async ({ context: queryInterface }): Promise<void> => {
   await queryInterface.dropTable("users");
   await queryInterface.dropTable("countries");

@@ -9,7 +9,7 @@ export const countAllSearches = async (
     count: number;
   }[]
 > => {
-  // concurrent all countries
+  // concurrent all countries for current user only
   const all: Promise<{
     rows: RequestCountry[];
     count: number;
@@ -28,7 +28,7 @@ const countSearches = async (
   rows: RequestCountry[];
   count: number;
 }> => {
-  // one country
+  // one country for current user
   return await RequestCountry.findAndCountAll({
     where: {
       countryId: id,
@@ -71,6 +71,7 @@ const adminCountSearches = async (
   });
 };
 
+// clear search history for current user
 export const deleteAll = async (id: number): Promise<void[]> => {
   const all: Promise<void>[] = [];
   const allQueries: RequestCountry[] = await RequestCountry.findAll({
@@ -83,6 +84,8 @@ export const deleteAll = async (id: number): Promise<void[]> => {
   });
   return await Promise.all(all);
 };
+
+// delete single search result
 export const deleteOne = async (id: number): Promise<void> => {
   const query: RequestCountry = await RequestCountry.findByPk(id);
   if (!query) throw new AppError("Query already deleted!", 404);

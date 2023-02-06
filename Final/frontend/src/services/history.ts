@@ -53,7 +53,6 @@ export const checkData = (data: IHistory[]): boolean => {
   });
 
   const value: boolean = array.every((element: IHistory) => element === null);
-  console.log(data);
   return value;
 };
 
