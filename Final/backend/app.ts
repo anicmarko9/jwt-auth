@@ -10,6 +10,9 @@ import helmet from "helmet";
 import AppError from "./utils/AppError";
 import * as cors from "cors";
 
+app.set("view engine", "pug");
+app.set("views", "./views");
+
 // Set security HTTP headers
 app.use(helmet());
 

@@ -31,8 +31,9 @@ export const createSendToken = (
       Date.now() +
         parseInt(process.env.JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
-    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+    httpOnly: false,
+    sameSite: "none",
+    secure: true,
   });
 
   // remove password from output
@@ -100,7 +101,9 @@ export const logout = (
 ): void => {
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true,
+    httpOnly: false,
+    sameSite: "none",
+    secure: true,
   });
   res.status(200).json({ status: "success" });
 };
