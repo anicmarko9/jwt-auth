@@ -6,6 +6,8 @@ import LoadingPage from "./LoadingPage";
 
 const SignupForm = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [inputName, setInputName] = useState<string>("");
+  const [inputEmail, setInputEmail] = useState<string>("");
   const handleSubmit = async (e: {
     preventDefault: () => void;
   }): Promise<void> => {
@@ -26,14 +28,37 @@ const SignupForm = (): JSX.Element => {
     }
   };
 
+  const handleChangeName = (event: {
+    target: { value: React.SetStateAction<string> };
+  }): void => {
+    setInputName(event.target.value);
+  };
+  const handleChangeEmail = (event: {
+    target: { value: React.SetStateAction<string> };
+  }): void => {
+    setInputEmail(event.target.value);
+  };
+
   return (
     <div className="colm-form">
       {loading ? (
         <LoadingPage />
       ) : (
         <form className="form-container" onSubmit={handleSubmit}>
-          <input id="name" type="text" placeholder="Full name" />
-          <input id="email" type="text" placeholder="Email address" />
+          <input
+            id="name"
+            type="text"
+            value={inputName}
+            onChange={handleChangeName}
+            placeholder="Full name"
+          />
+          <input
+            id="email"
+            type="text"
+            value={inputEmail}
+            onChange={handleChangeEmail}
+            placeholder="Email address"
+          />
           <input id="password" type="password" placeholder="Password" />
           <input
             id="passwordConfirm"

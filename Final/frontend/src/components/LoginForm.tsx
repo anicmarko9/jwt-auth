@@ -6,6 +6,7 @@ import LoadingPage from "./LoadingPage";
 
 const LoginForm = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
   const handleSubmit = async (e: {
     preventDefault: () => void;
   }): Promise<void> => {
@@ -21,6 +22,12 @@ const LoginForm = (): JSX.Element => {
     }
   };
 
+  const handleChangeEmail = (event: {
+    target: { value: React.SetStateAction<string> };
+  }): void => {
+    setEmail(event.target.value || "");
+  };
+
   const createNewAcc = (): void => {
     window.location.href = "/signup";
   };
@@ -31,7 +38,13 @@ const LoginForm = (): JSX.Element => {
         <LoadingPage />
       ) : (
         <form className="form-container" onSubmit={handleSubmit}>
-          <input id="email" type="text" placeholder="Email address" />
+          <input
+            id="email"
+            type="text"
+            value={email}
+            onChange={handleChangeEmail}
+            placeholder="Email address"
+          />
           <input id="password" type="password" placeholder="Password" />
           <button type="submit" className="btn-login">
             Login

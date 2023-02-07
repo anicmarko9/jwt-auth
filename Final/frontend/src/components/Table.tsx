@@ -30,7 +30,11 @@ const Table = ({
                     (city: string, index: number): JSX.Element => (
                       <Fragment key={index}>
                         <td>
-                          {city}
+                          <Link
+                            to={`/weathers?cities=${city}&countries=${country.code}`}
+                          >
+                            {city}
+                          </Link>
                           {/* Adding comma ", " if city is not the last element */}
                           {country.cities.length - index === 1 ? (
                             <span></span>

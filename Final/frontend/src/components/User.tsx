@@ -129,7 +129,9 @@ const Example = (): JSX.Element => {
                 <h3 style={{ color: "white" }}>Account Settings</h3>
                 <div className="centerFlex">
                   <div>
-                    <label className="item">Name</label>
+                    <label htmlFor="name" className="item">
+                      Name
+                    </label>
                     <input
                       className="item inputForm"
                       id="name"
@@ -138,8 +140,11 @@ const Example = (): JSX.Element => {
                     />
                   </div>
                   <div>
-                    <label className="item">Email</label>
+                    <label htmlFor="emailUnique" className="item">
+                      Email
+                    </label>
                     <input
+                      id="emailUnique"
                       className="item inputForm"
                       type="text"
                       defaultValue={data.email}
@@ -147,7 +152,9 @@ const Example = (): JSX.Element => {
                     />
                   </div>
                   <div>
-                    <label className="item">Biography</label>
+                    <label htmlFor="textArea" className="item">
+                      Biography
+                    </label>
                     <textarea
                       name="bio"
                       className="item"
@@ -190,7 +197,9 @@ const Example = (): JSX.Element => {
                 <h3 style={{ color: "white" }}>Password Settings</h3>
                 <div className="centerFlex">
                   <div>
-                    <label className="item">Current password</label>
+                    <label htmlFor="current" className="item">
+                      Current password
+                    </label>
                     <input
                       id="current"
                       className="item inputForm"
@@ -198,7 +207,9 @@ const Example = (): JSX.Element => {
                     />
                   </div>
                   <div>
-                    <label className="item">New password</label>
+                    <label htmlFor="new" className="item">
+                      New password
+                    </label>
                     <input
                       id="new"
                       className="item inputForm"
@@ -206,7 +217,9 @@ const Example = (): JSX.Element => {
                     />
                   </div>
                   <div>
-                    <label className="item">Confirm new password</label>
+                    <label htmlFor="newConfirm" className="item">
+                      Confirm new password
+                    </label>
                     <input
                       id="newConfirm"
                       className="item inputForm"

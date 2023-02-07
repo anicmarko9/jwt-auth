@@ -1,16 +1,20 @@
 import { QueryInterface, Sequelize } from "sequelize";
 import { Umzug, SequelizeStorage, MigrationMeta, UmzugOptions } from "umzug";
 
+// DataBase on localhost:5432
+
 // export const sequelize: Sequelize = new Sequelize(
 //   process.env.DATABASE_LOCAL,
 //   process.env.DATABASE_USERNAME,
 //   process.env.DATABASE_PASSWORD,
 //   {
-//     host: process.env.DATABASE_HOST,
+//     host: process.env.HOST,
 //     dialect: "postgres",
 //     logging: false,
 //   }
 // );
+
+// ElephantSQL -> DataBase on Cloud
 
 export const sequelize: Sequelize = new Sequelize(process.env.POSTGRES_URL, {
   username: process.env.POSTGRES_USERNAME,

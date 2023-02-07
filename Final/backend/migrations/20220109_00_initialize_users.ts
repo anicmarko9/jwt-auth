@@ -11,14 +11,15 @@ export const up = async ({ context: queryInterface }): Promise<void> => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlphanumeric: {
-          msg: "Special characters not allowed",
-        },
         notNull: {
           msg: "Please enter your name",
         },
         notEmpty: {
           msg: "Please enter your name",
+        },
+        len: {
+          msg: "Name length must be at least 3 characters long!",
+          args: [3, 32],
         },
       },
     },

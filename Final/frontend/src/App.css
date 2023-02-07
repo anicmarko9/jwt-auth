@@ -545,8 +545,8 @@ td button[type="button"]:focus,
 }
 @media only screen and (max-width: 800px) {
   .user-container {
-    width: 100%;
-    margin: 0 0 2%;
+    width: 96%;
+    margin: 0 2% 1%;
   }
 }
 #account-name:hover {

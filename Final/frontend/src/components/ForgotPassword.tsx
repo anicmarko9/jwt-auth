@@ -6,6 +6,7 @@ import LoadingPage from "./LoadingPage";
 
 const ForgotPassword = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
   const handleSubmit = async (e: {
     preventDefault: () => void;
   }): Promise<void> => {
@@ -21,6 +22,12 @@ const ForgotPassword = (): JSX.Element => {
     }
   };
 
+  const handleChangeEmail = (event: {
+    target: { value: React.SetStateAction<string> };
+  }): void => {
+    setEmail(event.target.value || "");
+  };
+
   return (
     <div className="forgot-password">
       {loading ? (
@@ -34,6 +41,8 @@ const ForgotPassword = (): JSX.Element => {
             id="email"
             placeholder="example@mail.com"
             autoFocus={true}
+            value={email}
+            onChange={handleChangeEmail}
           />
           <div>
             <button type="submit">Send link to email</button>
