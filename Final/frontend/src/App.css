@@ -22,8 +22,8 @@ body {
 
 @media only screen and (max-width: 800px) {
   .card {
-    width: 100%;
-    margin: 0 0 2%;
+    width: 90%;
+    margin: 2% 2% 2%;
   }
 }
 fieldset p {
@@ -172,6 +172,7 @@ td button[type="button"]:focus,
   text-transform: uppercase;
   letter-spacing: 2px;
   color: #2d033b;
+  text-align: center;
 }
 #line {
   border-top: 1px black solid;
@@ -186,9 +187,13 @@ td button[type="button"]:focus,
   align-items: center;
   flex-direction: row;
   flex-wrap: nowrap;
-
   margin-left: 10%;
   margin-right: 10%;
+}
+@media only screen and (max-width: 800px) {
+  .country-container {
+    flex-wrap: wrap;
+  }
 }
 
 .country-container .header {
@@ -224,6 +229,7 @@ td button[type="button"]:focus,
   margin-right: 2%;
   justify-content: space-evenly;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 .lists p {
   font-weight: 700;
@@ -405,6 +411,15 @@ td button[type="button"]:focus,
   margin-top: 5%;
 }
 
+@media only screen and (max-width: 800px) {
+  .colm-form,
+  .forgot-password,
+  .reset-password {
+    width: 96%;
+    margin: 2% 2% 1%;
+  }
+}
+
 .forgot-password form,
 .reset-password form,
 .colm-form .form-container {
@@ -556,6 +571,7 @@ td button[type="button"]:focus,
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  flex-wrap: nowrap;
   margin-bottom: 2rem;
   background-color: rgba(129, 12, 168, 0.4);
   border: none;
@@ -571,6 +587,18 @@ td button[type="button"]:focus,
   width: 250px;
   border-right: solid 0.5rem #2d033b;
 }
+
+@media only screen and (max-width: 800px) {
+  .user-container .settings {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .user-container .settings .side-nav {
+    width: 90%;
+    border-right: none;
+  }
+}
+
 .user-container .settings .side-nav div {
   display: flex;
   flex-direction: column;
@@ -654,18 +682,20 @@ td button[type="button"]:focus,
   padding: 0.75rem 1.25rem;
   margin: 0.5rem 0.5rem;
 }
+@media only screen and (max-width: 900px) {
+  .user-container .settings .passwordSettings .centerFlex div .item {
+    width: 220px;
+  }
+}
 
 @media only screen and (max-width: 900px) {
   .user-container .settings .userSettings .centerFlex,
   .user-container .settings .passwordSettings .centerFlex {
-    width: 200px;
+    width: 90%;
+    justify-content: center;
   }
 }
-@media only screen and (max-width: 900px) {
-  .user-container .settings .passwordSettings .centerFlex div .item {
-    width: 150px;
-  }
-}
+
 .item {
   letter-spacing: 1px;
 }
@@ -781,8 +811,8 @@ td button[type="button"]:focus,
 }
 @media only screen and (max-width: 800px) {
   .data-container {
-    width: 90%;
-    margin: 2% 2.5% 0;
+    width: 86%;
+    margin: 4% 2% 0;
   }
 }
 .data-container .user-info {
@@ -912,8 +942,8 @@ th button:hover {
 }
 @media only screen and (max-width: 800px) {
   .history-info {
-    width: 100%;
-    margin: 0 2% 2%;
+    width: 90%;
+    margin: 2% 2% 2%;
   }
 }
 .flag-query,
@@ -921,9 +951,11 @@ th button:hover {
   padding: 1rem;
   margin: 0 0.5rem;
 }
-.flag-query {
-  text-align: center;
+
+.flag-query img {
+  width: 100%;
 }
+
 .flag-query ul li,
 .history-queries-info ol li {
   margin-bottom: 1rem;
@@ -933,4 +965,12 @@ th button:hover {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
+}
+
+@media only screen and (max-width: 800px) {
+  .buttons .btn,
+  .history-links .btn {
+    width: 200px;
+    text-align: center;
+  }
 }

@@ -4,6 +4,7 @@ import {
   InstanceUpdateOptions,
   CreateOptions,
 } from "sequelize";
+import { formatDate } from "../services/history.service";
 import { sequelize } from "../utils/db.util";
 
 class RequestCountry extends Model {
@@ -50,9 +51,7 @@ RequestCountry.init(
         request: RequestCountry,
         options: InstanceUpdateOptions<any> | CreateOptions<any>
       ): Promise<void> => {
-        const date: string = new Date().toISOString().slice(0, 10);
-        const time: string = new Date().toLocaleTimeString().slice(0, 8);
-        request.timestamp = `${date} ${time}`;
+        request.timestamp = formatDate(new Date());
       },
     },
   }

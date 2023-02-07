@@ -106,7 +106,7 @@ function Example({ countryCode }: { countryCode: string }): JSX.Element {
               <div className="lists">
                 <div>
                   <p>
-                    Offical currency in {data["country"].name} is{" "}
+                    Official currency in {data["country"].name} is{" "}
                     {Object.getOwnPropertyNames(data["country"].currency)}:{" "}
                   </p>
                   <ul>

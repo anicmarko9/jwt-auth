@@ -91,3 +91,19 @@ export const deleteOne = async (id: number): Promise<void> => {
   if (!query) throw new AppError("Query already deleted!", 404);
   return await query.destroy();
 };
+
+// Functions below used to get timestamp "yyyy-mm-dd hh:mm:ss"
+const padTo2Digits = (num: number): string => num.toString().padStart(2, "0");
+
+export const formatDate = (date: Date): string =>
+  [
+    date.getFullYear(),
+    padTo2Digits(date.getMonth() + 1),
+    padTo2Digits(date.getDate()),
+  ].join("-") +
+  " " +
+  [
+    padTo2Digits(date.getHours()),
+    padTo2Digits(date.getMinutes()),
+    padTo2Digits(date.getSeconds()),
+  ].join(":");
