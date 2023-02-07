@@ -1,7 +1,7 @@
 export const COUNTRIES: { code: string; cities: string[] }[] = [
   {
     code: "RS",
-    cities: ["Belgrade", "Novi Sad", "Niš"],
+    cities: ["Belgrade", "Novi Sad", "Niš", "Kraljevo"],
   },
   {
     code: "AU",
