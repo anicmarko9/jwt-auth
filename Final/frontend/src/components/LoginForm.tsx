@@ -33,10 +33,8 @@ const LoginForm = (): JSX.Element => {
   };
 
   return (
-    <div className="colm-form">
-      {loading ? (
-        <LoadingPage />
-      ) : (
+    <>
+      <div className="colm-form">
         <form className="form-container" onSubmit={handleSubmit}>
           <input
             id="email"
@@ -54,8 +52,9 @@ const LoginForm = (): JSX.Element => {
             Create new Account
           </button>
         </form>
-      )}
-    </div>
+      </div>
+      {loading ? <LoadingPage /> : <div></div>}
+    </>
   );
 };
 

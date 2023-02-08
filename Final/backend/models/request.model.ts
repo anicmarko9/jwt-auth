@@ -51,7 +51,7 @@ RequestCountry.init(
         request: RequestCountry,
         options: InstanceUpdateOptions<any> | CreateOptions<any>
       ): Promise<void> => {
-        request.timestamp = formatDate(new Date());
+        request.timestamp = formatDate(new Date(new Date().toLocaleString()));
       },
     },
   }

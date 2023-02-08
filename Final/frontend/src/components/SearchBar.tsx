@@ -66,44 +66,42 @@ const SearchBar = (): JSX.Element => {
 
   return (
     <div className="home-container">
+      <Table countries={COUNTRIES} />
+      <form className="inputForm" onSubmit={handleSubmit}>
+        <select
+          name="countries"
+          id="countries"
+          value={inputCountry}
+          onChange={handleChangeCountry}
+        >
+          {COUNTRIES.map(
+            (
+              country: { code: string; cities: string[] },
+              index: number
+            ): JSX.Element => (
+              <option key={index} value={country.code}>
+                {country.code}
+              </option>
+            )
+          )}
+        </select>
+        <input
+          id="cities"
+          type="search"
+          name="cities"
+          placeholder="Belgrade, Novi Sad, Niš"
+          required={true}
+          value={inputCities}
+          onChange={handleChangeCities}
+        />
+        <button type="submit">Search</button>
+      </form>
       {loading ? (
         <LoadingPage />
       ) : (
-        <>
-          <Table countries={COUNTRIES} />
-          <form className="inputForm" onSubmit={handleSubmit}>
-            <select
-              name="countries"
-              id="countries"
-              value={inputCountry}
-              onChange={handleChangeCountry}
-            >
-              {COUNTRIES.map(
-                (
-                  country: { code: string; cities: string[] },
-                  index: number
-                ): JSX.Element => (
-                  <option key={index} value={country.code}>
-                    {country.code}
-                  </option>
-                )
-              )}
-            </select>
-            <input
-              id="cities"
-              type="search"
-              name="cities"
-              placeholder="Belgrade, Novi Sad, Niš"
-              required={true}
-              value={inputCities}
-              onChange={handleChangeCities}
-            />
-            <button type="submit">Search</button>
-          </form>
-          <div className="results-container">
-            <Results weathers={weathers} />
-          </div>
-        </>
+        <div className="results-container">
+          <Results weathers={weathers} />
+        </div>
       )}
     </div>
   );

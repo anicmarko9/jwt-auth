@@ -29,10 +29,8 @@ const ForgotPassword = (): JSX.Element => {
   };
 
   return (
-    <div className="forgot-password">
-      {loading ? (
-        <LoadingPage />
-      ) : (
+    <>
+      <div className="forgot-password">
         <form onSubmit={handleSubmit}>
           <h2>Forgot password?</h2>
           <p>Please enter your email to search for your account.</p>
@@ -49,8 +47,9 @@ const ForgotPassword = (): JSX.Element => {
             <a href="/login">Back to login</a>
           </div>
         </form>
-      )}
-    </div>
+      </div>
+      {loading ? <LoadingPage /> : <div></div>}
+    </>
   );
 };
 

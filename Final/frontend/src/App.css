@@ -181,6 +181,14 @@ td button[type="button"]:focus,
   padding-top: 1em;
 }
 
+.error-heading {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5rem 1rem;
+  text-align: center;
+}
+
 .country-container {
   display: flex;
   justify-content: center;
@@ -257,9 +265,10 @@ td button[type="button"]:focus,
   margin-top: 15%;
 }
 .loader {
-  position: absolute;
+  position: relative;
+  margin-top: 60px;
   top: 30%;
-  left: 44%;
+  left: 45%;
   z-index: 1;
   border: 16px solid #f3f3f3;
   border-top: 16px solid #3498db;
@@ -267,6 +276,17 @@ td button[type="button"]:focus,
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
+}
+
+@media only screen and (max-width: 500px) {
+  .loader {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    left: 40%;
+    margin-top: 45px;
+  }
 }
 
 @keyframes spin {

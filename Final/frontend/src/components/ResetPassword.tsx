@@ -24,10 +24,8 @@ const ResetPassword = (): JSX.Element => {
   };
 
   return (
-    <div className="reset-password">
-      {loading ? (
-        <LoadingPage />
-      ) : (
+    <>
+      <div className="reset-password">
         <form onSubmit={handleSubmit}>
           <h2>Reset password</h2>
           <p>Please enter your new password and confirm it.</p>
@@ -48,8 +46,9 @@ const ResetPassword = (): JSX.Element => {
             <a href="/login">Back to login</a>
           </div>
         </form>
-      )}
-    </div>
+      </div>
+      {loading ? <LoadingPage /> : <div></div>}
+    </>
   );
 };
 
