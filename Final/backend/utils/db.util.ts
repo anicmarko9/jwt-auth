@@ -1,28 +1,30 @@
 import { QueryInterface, Sequelize } from "sequelize";
 import { Umzug, SequelizeStorage, MigrationMeta, UmzugOptions } from "umzug";
 
-// DataBase on localhost:5432
+export let sequelize: Sequelize;
 
-// export const sequelize: Sequelize = new Sequelize(
-//   process.env.DATABASE_LOCAL,
-//   process.env.DATABASE_USERNAME,
-//   process.env.DATABASE_PASSWORD,
-//   {
-//     host: process.env.HOST,
-//     dialect: "postgres",
-//     logging: false,
-//   }
-// );
-
-// ElephantSQL -> DataBase on Cloud
-
-export const sequelize: Sequelize = new Sequelize(process.env.POSTGRES_URL, {
-  username: process.env.POSTGRES_USERNAME,
-  database: process.env.POSTGRES_DATABASE,
-  password: process.env.POSTGRES_PASSWORD,
-  dialect: "postgres",
-  logging: false,
-});
+if (process.env.NODE_ENV === "production") {
+  // ElephantSQL -> DataBase on Cloud
+  sequelize = new Sequelize(process.env.POSTGRES_URL, {
+    username: process.env.POSTGRES_USERNAME,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
+    dialect: "postgres",
+    logging: false,
+  });
+} else {
+  // DataBase on localhost:5432
+  sequelize = new Sequelize(
+    process.env.DATABASE_LOCAL,
+    process.env.DATABASE_USERNAME,
+    process.env.DATABASE_PASSWORD,
+    {
+      host: process.env.HOST,
+      dialect: "postgres",
+      logging: false,
+    }
+  );
+}
 
 const migrationConf: UmzugOptions<QueryInterface> = {
   migrations: {
