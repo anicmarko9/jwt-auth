@@ -14,7 +14,7 @@ import { getHostAddress } from "./utils/network.util";
 import { connectToDatabase } from "./utils/db.util";
 
 let port: number = parseInt(process.env.PORT) || 5000;
-let host: string = process.env.HOST || getHostAddress();
+let host: string = process.env.PGHOST ? getHostAddress() : process.env.HOST;
 
 const server: Server = app
   .listen(port, host)

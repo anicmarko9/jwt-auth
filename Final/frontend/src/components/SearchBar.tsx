@@ -11,6 +11,7 @@ import LoadingPage from "./LoadingPage";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchBar = (): JSX.Element => {
+  console.log(process.env.NODE_ENV);
   const [weathers, setWeathers] = useState<Weather[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [inputCities, setInputCities] = useState<string>("");

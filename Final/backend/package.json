@@ -5,10 +5,12 @@
   "main": "server.ts",
   "scripts": {
     "dev": "ts-node ./server.ts",
-    "migration:down": "ts-node ./utils/rollback.util.ts",
-    "start": "ts-node build/server.js",
     "build": "bash ./script.sh && tsc -p .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node build/server.js",
+    "docker-build": "tsc -p .",
+    "docker-start": "ts-node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migration:down": "ts-node ./utils/rollback.util.ts"
   },
   "author": "Marko Anic",
   "license": "ISC",

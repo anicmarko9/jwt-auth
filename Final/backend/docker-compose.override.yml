@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  weather-back:
+    container_name: NodeJS-development
+    image: anicmarko9/backend:2.6
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 5000:5000
+    env_file: .env
+    environment:
+      - PGHOST=PostgreSQL
+      - TZ=Europe/Amsterdam
+      - NODE_ENV=development
+    depends_on:
+      - PostgreSQL
+    networks:
+      - back
+      - front
+  PostgreSQL:
+    container_name: PostgreSQL
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    env_file: .postgres.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - db
+      - back
+  pgAdmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:6
+    restart: always
+    ports:
+      - 80:80
+    env_file: .pgadmin.env
+    depends_on:
+      - PostgreSQL
+    networks:
+      - db
+      - back
+volumes:
+  postgres-data:
+    driver: local
+networks:
+  db:
+    name: db
+    internal: true
+  back:
+    name: back
+  front:
+    name: front
+    external: true

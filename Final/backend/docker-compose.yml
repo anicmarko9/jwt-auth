@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  weather-back:
+    image: anicmarko9/backend:2.6
+    container_name: NodeJS
+    depends_on:
+      - PostgreSQL
+  PostgreSQL:
+    container_name: PostgreSQL
+    image: postgres:15-alpine
+  pgAdmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:6

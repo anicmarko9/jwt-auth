@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  weather-front:
+    container_name: ReactJS-development
+    image: anicmarko9/frontend:1.0
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    env_file: .env
+    environment:
+      - TZ=Europe/Amsterdam
+    networks:
+      - front
+      - back
+networks:
+  front:
+    name: front
+  back:
+    name: back
+    external: true

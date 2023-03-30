@@ -13,13 +13,13 @@ if (process.env.NODE_ENV === "production") {
     logging: false,
   });
 } else {
-  // DataBase on localhost:5432
+  // DataBase on postgresql:5432
   sequelize = new Sequelize(
     process.env.DATABASE_LOCAL,
     process.env.DATABASE_USERNAME,
     process.env.DATABASE_PASSWORD,
     {
-      host: process.env.HOST,
+      host: process.env.PGHOST ? process.env.PGHOST : process.env.HOST,
       dialect: "postgres",
       logging: false,
     }

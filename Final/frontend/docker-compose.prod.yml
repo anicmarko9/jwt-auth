@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  weather-front:
+    container_name: ReactJS-production
+    image: anicmarko9/front-prod:1.0
+    restart: always
+    build: .
+    networks:
+      - back-prod
+      - front-prod
+    ports:
+      - 3000:80
+    env_file: .env
+    environment:
+      - TZ=Europe/Amsterdam
+      - NODE_ENV=production
+networks:
+  back-prod:
+    name: back-prod
+    external: true
+  front-prod:
+    name: front-prod
