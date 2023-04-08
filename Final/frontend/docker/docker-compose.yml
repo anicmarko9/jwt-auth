@@ -1,5 +1,5 @@
 version: "3.9"
 services:
-  weather-front:
+  ReactJS-dev:
     image: anicmarko9/frontend:1.0
-    container_name: ReactJS
+    container_name: ReactJS-dev

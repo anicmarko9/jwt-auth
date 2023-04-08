@@ -1,20 +1,23 @@
 version: "3.9"
+name: backend-prod
 services:
-  weather-back:
-    container_name: NodeJS-production
-    image: anicmarko9/back-prod:1.2
+  weather-backend:
+    container_name: NodeJS-prod
+    image: anicmarko9/back-prod:1.4
     restart: always
     build: .
     networks:
       - back-prod
       - front-prod
     ports:
-      - 5000:80
-    env_file: .env
+      - 5010:5010
+    env_file: ./../.env
     environment:
       - PGHOST=ElephantSQL
       - TZ=Europe/Amsterdam
       - NODE_ENV=production
+      - FRONT_URL=http://localhost:3010
+      - PORT=5010
 networks:
   back-prod:
     name: back-prod

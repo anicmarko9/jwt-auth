@@ -14,7 +14,9 @@ import { getHostAddress } from "./utils/network.util";
 import { connectToDatabase } from "./utils/db.util";
 
 let port: number = parseInt(process.env.PORT) || 5000;
-let host: string = process.env.PGHOST ? getHostAddress() : process.env.HOST;
+let host: string = process.env.PGHOST
+  ? "0.0.0.0"
+  : process.env.HOST || getHostAddress();
 
 const server: Server = app
   .listen(port, host)
@@ -25,6 +27,9 @@ const server: Server = app
     console.log("Port " + port + " is busy. Trying the next available port...");
     await connectToDatabase();
     app.listen(++port);
+    console.log(
+      "API is successfully started. Listening on http://" + host + ":" + port
+    );
   })
   .on("listening", async function (): Promise<void> {
     await connectToDatabase();

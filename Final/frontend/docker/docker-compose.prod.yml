@@ -1,7 +1,8 @@
 version: "3.9"
+name: frontend-prod
 services:
-  weather-front:
-    container_name: ReactJS-production
+  ReactJS-prod:
+    container_name: ReactJS-prod
     image: anicmarko9/front-prod:1.0
     restart: always
     build: .
@@ -9,8 +10,7 @@ services:
       - back-prod
       - front-prod
     ports:
-      - 3000:80
-    env_file: .env
+      - 3010:80
     environment:
       - TZ=Europe/Amsterdam
       - NODE_ENV=production

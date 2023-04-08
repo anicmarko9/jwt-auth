@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  weather-back:
-    image: anicmarko9/backend:2.6
-    container_name: NodeJS
+  NodeJS-dev:
+    image: anicmarko9/backend:2.7
+    container_name: NodeJS-dev
     depends_on:
       - PostgreSQL
   PostgreSQL:

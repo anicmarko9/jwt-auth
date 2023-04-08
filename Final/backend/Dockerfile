@@ -16,5 +16,5 @@ COPY package*.json ./
 COPY tsconfig.json ./
 RUN npm ci
 COPY --from=0 /build .
-EXPOSE 80
+EXPOSE 5010
 CMD ["npm", "run", "docker-start"]
