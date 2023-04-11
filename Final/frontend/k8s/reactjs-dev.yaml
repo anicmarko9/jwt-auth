@@ -1,0 +1,59 @@
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: react-configmap
+  namespace: development
+data:
+  REACT_APP_SERVER_URL: http://localhost:5000/
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment-dev
+  namespace: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-dev
+  template:
+    metadata:
+      labels:
+        app: react-dev
+    spec:
+      containers:
+      - name: react-dev
+        image: anicmarko9/frontend:1.0
+        envFrom:
+          - configMapRef:
+              name: react-configmap
+        env:
+          - name: TZ
+            value: Europe/Amsterdam
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "0.5"
+          requests:
+            memory: "500Mi"
+            cpu: "0.1"
+        ports:
+        - containerPort: 3000
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service-dev
+  namespace: development
+spec:
+  type: NodePort
+  selector:
+    app: react-dev
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
