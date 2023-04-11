@@ -1,0 +1,59 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment-dev
+  namespace: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs-dev
+  template:
+    metadata:
+      labels:
+        app: nodejs-dev
+    spec:
+      containers:
+        - name: nodejs-dev
+          image: anicmarko9/backend:2.7
+          envFrom:
+            - secretRef:
+                name: nodejs-secret
+          env:
+            - name: PGHOST
+              value: postgres.development.svc.cluster.local
+              # value: postgres-statefulset-0.postgres-statefulset.default.svc.cluster.local
+              # postgres-statefulset-0 = actual hostname of your Postgres pod.
+              # "postgres-statefulset" is the name of the StatefulSet, "default" is the namespace,
+              # and "svc.cluster.local" is the default DNS suffix for services.
+            - name: TZ
+              value: Europe/Amsterdam
+            # - name: NODE_ENV
+            #   value: production
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "0.5"
+            requests:
+              memory: "500Mi"
+              cpu: "0.1"
+# In this example, the limits section sets a maximum of 1 GiB of memory and 0.5 CPU units that can be used by the pod, while the requests section sets a minimum of 500 MiB of memory and 0.1 CPU units that the pod requires.
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-service-dev
+  namespace: development
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodejs-dev
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+      nodePort: 30000

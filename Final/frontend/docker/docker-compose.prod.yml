@@ -14,6 +14,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
       - NODE_ENV=production
+      - REACT_APP_SERVER_URL=http://localhost:5010/
 networks:
   back-prod:
     name: back-prod
