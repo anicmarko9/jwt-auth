@@ -3,7 +3,6 @@ FROM node:18-alpine
 WORKDIR /
 COPY package*.json ./
 COPY tsconfig.json ./
-# RUN apk update && apk add bash
 RUN npm ci
 COPY . .
 RUN npm run docker-build
