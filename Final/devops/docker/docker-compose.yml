@@ -1,7 +1,10 @@
 version: "3.9"
 services:
+  ReactJS-dev:
+    image: anicmarko9/frontend:1.1
+    container_name: ReactJS-dev
   NodeJS-dev:
-    image: anicmarko9/backend:2.7
+    image: anicmarko9/backend:2.8
     container_name: NodeJS-dev
     depends_on:
       - PostgreSQL

@@ -1,11 +1,13 @@
-## stage one - build app
+## Прва фаза - изградња апликације
 FROM node:18-alpine
 WORKDIR /
-COPY . .
+COPY package*.json ./
+COPY tsconfig.json ./
 RUN npm ci
+COPY . .
 RUN npm run build
 
-## stage two - run app
+## Друга фаза - покретање апликације
 FROM nginx:1.22.1-alpine
 ENV NODE_ENV production
 COPY --from=0 /build /usr/share/nginx/html

@@ -1,16 +1,31 @@
 version: "3.9"
-name: backend-dev
+name: development
 services:
-  NodeJS-dev:
-    container_name: NodeJS-dev
-    image: anicmarko9/backend:2.7
+  ReactJS-dev:
+    container_name: ReactJS-dev
+    image: anicmarko9/frontend:1.1
     restart: always
     build:
-      context: .
+      context: ./../../frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    env_file: ./../../frontend/.env
+    environment:
+      - TZ=Europe/Amsterdam
+    networks:
+      - front
+      - back
+  NodeJS-dev:
+    container_name: NodeJS-dev
+    image: anicmarko9/backend:2.8
+    restart: always
+    build:
+      context: ./../../backend
       dockerfile: Dockerfile.dev
     ports:
       - 5000:5000
-    env_file: ./../.env
+    env_file: ./../../backend/.env
     environment:
       - PGHOST=PostgreSQL
       - TZ=Europe/Amsterdam
@@ -26,7 +41,7 @@ services:
     restart: always
     ports:
       - 5432:5432
-    env_file: ./../.postgres.env
+    env_file: ./../../backend/.postgres.env
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
@@ -38,7 +53,7 @@ services:
     restart: always
     ports:
       - 80:80
-    env_file: ./../.pgadmin.env
+    env_file: ./../../backend/.pgadmin.env
     depends_on:
       - PostgreSQL
     networks:
@@ -56,4 +71,3 @@ networks:
     name: back
   front:
     name: front
-    external: true

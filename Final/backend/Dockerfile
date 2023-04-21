@@ -1,14 +1,16 @@
-## stage one - build app
+## Прва фаза - изградња слике
 FROM node:18-alpine
 WORKDIR /
-COPY . .
-RUN apk update && apk add bash
+COPY package*.json ./
+COPY tsconfig.json ./
+# RUN apk update && apk add bash
 RUN npm ci
+COPY . .
 RUN npm run docker-build
 RUN mkdir -p ./build/views
 RUN cp ./views/* ./build/views
 
-## stage two - run app
+## Друга фаза - покретање слике
 FROM node:18-alpine
 ENV NODE_ENV production
 WORKDIR /

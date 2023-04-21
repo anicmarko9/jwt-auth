@@ -1,0 +1,39 @@
+version: "3.9"
+name: production
+services:
+  ReactJS-prod:
+    container_name: ReactJS-prod
+    image: anicmarko9/front-prod:1.4
+    restart: always
+    build: ./../../frontend
+    networks:
+      - back-prod
+      - front-prod
+    ports:
+      - 3010:80
+    environment:
+      - TZ=Europe/Amsterdam
+      - NODE_ENV=production
+      - REACT_APP_SERVER_URL=http://localhost:5010/
+  NodeJS-prod:
+    container_name: NodeJS-prod
+    image: anicmarko9/back-prod:1.5
+    restart: always
+    build: ./../../backend
+    networks:
+      - back-prod
+      - front-prod
+    ports:
+      - 5010:5010
+    env_file: ./../../backend/.env
+    environment:
+      - PGHOST=ElephantSQL
+      - TZ=Europe/Amsterdam
+      - NODE_ENV=production
+      - FRONT_URL=http://localhost:3010
+      - PORT=5010
+networks:
+  back-prod:
+    name: back-prod
+  front-prod:
+    name: front-prod
