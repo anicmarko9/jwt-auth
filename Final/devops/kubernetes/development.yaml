@@ -1,0 +1,213 @@
+# Service for React App
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service-dev
+  namespace: development
+spec:
+  type: LoadBalancer
+  selector:
+    app: react-dev
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+---
+# Service for PostgreSQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: development
+spec:
+  clusterIP: None
+  selector:
+    app: postgres
+  ports:
+    - name: postgres-port
+      port: 5432
+      targetPort: 5432
+---
+# Service for NodeJS App
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-service-dev
+  namespace: development
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodejs-dev
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+---
+# PV for PostgreSQL
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+  namespace: development
+spec:
+  hostPath:
+    path: C:\Program Files\PostgreSQL\15\data
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  claimRef:
+    name: postgres-pvc
+    namespace: development
+---
+# PVC for PostgreSQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: development
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  volumeName: postgres-pv
+---
+# Stateful Application for PostgreSQL
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: postgres-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+---
+# Deployment for React App
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment-dev
+  namespace: development
+spec:
+  progressDeadlineSeconds: 300
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-dev
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: react-dev
+    spec:
+      containers:
+      - name: react-dev
+        image: anicmarko9/frontend:1.0
+        envFrom:
+          - configMapRef:
+              name: react-configmap
+        env:
+          - name: TZ
+            value: Europe/Amsterdam
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 3000
+---
+# Deployment for NodeJS App
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment-dev
+  namespace: development
+spec:
+  progressDeadlineSeconds: 300
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs-dev
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nodejs-dev
+    spec:
+      containers:
+        - name: nodejs-dev
+          image: anicmarko9/backend:2.7
+          envFrom:
+            - secretRef:
+                name: nodejs-secret
+          env:
+            - name: PGHOST
+              value: postgres-0.postgres-service.development.svc.cluster.local
+            - name: TZ
+              value: Europe/Amsterdam
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"

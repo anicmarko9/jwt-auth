@@ -1,0 +1,120 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-service
+  namespace: production
+spec:
+  type: LoadBalancer
+  selector:
+    app: react-prod
+  ports:
+    - name: http
+      port: 3010
+      targetPort: 80
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-service
+  namespace: production
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodejs-prod
+  ports:
+    - name: http
+      port: 5010
+      targetPort: 5010
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment-prod
+  namespace: production
+spec:
+  progressDeadlineSeconds: 300
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs-prod
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nodejs-prod
+    spec:
+      containers:
+        - name: nodejs-prod
+          image: anicmarko9/back-prod:1.4
+          envFrom:
+            - secretRef:
+                name: nodejs-secret
+          env:
+            - name: PGHOST
+              value: ElephantSQL
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: NODE_ENV
+              value: production
+            - name: FRONT_URL
+              value: http://localhost:3010
+            - name: PORT
+              value: "5010"
+          ports:
+            - containerPort: 5010
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment-prod
+  namespace: production
+spec:
+  progressDeadlineSeconds: 300
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-prod
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: react-prod
+    spec:
+      containers:
+      - name: react-prod
+        image: anicmarko9/front-prod:1.0
+        env:
+          - name: TZ
+            value: Europe/Amsterdam
+          - name: REACT_APP_SERVER_URL
+            value: http://localhost:5010/
+          - name: NODE_ENV
+            value: production
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
