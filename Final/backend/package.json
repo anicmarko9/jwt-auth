@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "dev": "ts-node ./server.ts",
-    "build": "npm ci && cp ./views/* ./build/views && mkdir -p ./build/views && bash ./script.sh && tsc -p .",
+    "build": "npm ci && tsc -p . && cp ./views/* ./build/views && mkdir -p ./build/views",
     "start": "ts-node build/server.js",
     "docker-build": "tsc -p .",
     "docker-start": "ts-node server.js",
