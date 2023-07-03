@@ -5,8 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "dev": "ts-node ./server.ts",
-    "build": "tsc -p .",
-    "start": "ts-node server.js",
+    "build": "bash ./script.sh && tsc -p .",
+    "start": "ts-node build/server.js",
     "docker-build": "tsc -p .",
     "docker-start": "ts-node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
