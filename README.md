@@ -16,3 +16,4 @@ This app is built using RESTful APIs with TypeScript. It is a backend focused ap
 * Load balancer: k8s loadBalancer service
 
 This App is not deployed.
+Uninstalled Apps.
