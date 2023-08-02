@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "allowJs": true,
+        "target": "ES2016",
+        "moduleResolution":"node",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+    "./**/*"
+    ],
+    "exclude":[
+      "./node_modules",
+      "./build"
+  ]
+  }
